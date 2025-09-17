@@ -1,285 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>My BIO</title>
-  <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --brand: #3498db;
-      --dark: #2c3e50;
-      --muted: #6c7a89;
-    }
-    html, body { height: 100%; margin: 0; }
-    body {
-      font-family: 'Poppins', sans-serif;
-      line-height: 1.55;
-      color: #222;
-      background-color: #f6f8fa;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ergash Ruzehaji - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+            line-height: 1.6;
+            color: #222;
+            background: url('./Future.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
 
-    /* Hero banner (full-bleed); uses Future.jpg from repo root */
-    .hero {
-      background: url('./Future.jpg') no-repeat center center;
-      background-size: cover;
-      min-height: 36vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      text-shadow: 0 2px 12px rgba(0,0,0,0.6);
-    }
-    .hero-inner {
-      background: rgba(0,0,0,0.28);
-      padding: 20px 28px;
-      border-radius: 10px;
-      max-width: 920px;
-      width: calc(100% - 48px);
-      text-align: center;
-    }
-    .hero h1 { margin: 0 0 8px 0; font-size: 1.8rem; letter-spacing: 0.6px; }
-    .hero p { margin: 0; color: #f0f6fb; font-size: 0.98rem; }
+        .page-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            box-sizing: border-box;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 20px;
+        }
 
-    /* Page content container */
-    .wrap {
-      max-width: 980px;
-      margin: -36px auto 40px auto; /* pull up over hero */
-      padding: 18px;
-      background: rgba(255,255,255,0.96);
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(18,24,34,0.08);
-    }
+        .panel {
+            background: rgba(255,255,255,0.82);
+            border-radius: 12px;
+            box-shadow: 0 6px 30px rgba(0,0,0,0.2);
+            padding: 24px;
+            backdrop-filter: blur(4px);
+        }
 
-    /* Tabs */
-    .tabs {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 18px;
-    }
-    .tab-btn {
-      border: none;
-      padding: 8px 14px;
-      cursor: pointer;
-      background: var(--brand);
-      color: #fff;
-      border-radius: 8px;
-      font-weight: 600;
-      transition: transform .12s ease, background .12s ease;
-    }
-    .tab-btn:not(.active):hover { transform: translateY(-2px); background:#2d95d6; }
-    .tab-btn.active { background: var(--dark); }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
 
-    .tab-content { display: none; padding: 10px 6px; }
-    .tab-content.active { display: block; }
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 3px solid rgba(255,255,255,0.6);
+        }
 
-    h2.section-title {
-      margin: 8px 0 14px 0;
-      color: var(--dark);
-      font-size: 1.12rem;
-      border-bottom: 2px solid rgba(52,152,219,0.12);
-      padding-bottom: 10px;
-    }
+        h1 { margin: 0; }
 
-    .grid {
-      display: grid;
-      gap: 14px;
-    }
-    /* Two-column layout on desktop for lists */
-    @media (min-width: 820px) {
-      .grid.two-col { grid-template-columns: 1fr 360px; align-items: start; }
-    }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        .tab-btn.active { background: #2c3e50; }
 
-    ul { padding-left: 20px; margin: 8px 0; color: var(--muted); }
-    li { margin-bottom: 8px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
 
-    .contact-info {
-      text-align: center;
-      padding: 14px;
-      border-radius: 10px;
-      background: linear-gradient(180deg, rgba(236,240,241,0.95), rgba(255,255,255,0.95));
-      margin-top: 18px;
-    }
-    .contact-info a { color: var(--brand); text-decoration: none; margin: 0 8px; }
-    .contact-info a:hover { text-decoration: underline; }
+        .section { margin-bottom: 24px; }
+        .section h2 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 16px;
+        }
 
-    /* Projects list */
-    .projects-list {
-      display: grid;
-      gap: 12px;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-    .project {
-      background: #fff;
-      border-radius: 10px;
-      padding: 10px;
-      box-shadow: 0 6px 18px rgba(15,20,30,0.04);
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-    }
-    .project .thumb {
-      width: 84px;
-      height: 64px;
-      border-radius: 8px;
-      background: linear-gradient(135deg,#e9eef6,#f4f7fb);
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
-      font-size: 11px;
-    }
-    .project h3 { margin: 0 0 6px 0; font-size: 1rem; color: var(--dark); }
-    .project p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+        .contact-info { text-align: center; }
+        .contact-info a { color: #3498db; text-decoration: none; margin: 0 8px; }
 
-    /* Optional profile image (show once as a small avatar in sidebar on wide screens) */
-    .avatar {
-      display: none;
-      max-width: 260px;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-    }
-    @media (min-width: 820px) {
-      .avatar { display: block; width: 100%; height: auto; object-fit: cover; border-radius: 12px; }
-    }
+        ul { padding-left: 20px; }
 
-    footer { text-align: center; color: var(--muted); font-size: 0.9rem; margin-top: 18px; }
-  </style>
+        @media (max-width: 600px) {
+            .page-container { padding: 20px 12px; }
+            .profile-photo { width: 80px; height: 80px; }
+        }
+    </style>
 </head>
 <body>
-  <header class="hero" role="banner" aria-label="Hero banner">
-    <div class="hero-inner">
-      <h1>Hi — I'm Ergash</h1>
-      <p>Asian American lifelong-learner. I tinker with drones, build small projects, and help organize community events.</p>
-    </div>
-  </header>
-
-  <main class="wrap" role="main">
-    <div class="tabs" role="tablist" aria-label="Site sections">
-      <button class="tab-btn active" onclick="showTab('about')">About</button>
-      <button class="tab-btn" onclick="showTab('education')">Education</button>
-      <button class="tab-btn" onclick="showTab('experience')">Experience</button>
-      <button class="tab-btn" onclick="showTab('skills')">Skills</button>
-      <button class="tab-btn" onclick="showTab('fun')">Fun</button>
-      <button class="tab-btn" onclick="showTab('projects')">Projects</button>
-    </div>
-
-    <section id="about" class="tab-content active" aria-labelledby="about">
-      <div class="grid two-col">
-        <div>
-          <h2 class="section-title">About Me</h2>
-          <p>I try to learn something new every day and enjoy hands-on projects. I value independence and community — volunteering and event organization are a few ways I give back.</p>
-          <p>Interests include hiking, drone flying, sailing, and reading. I speak English, Uyghur, and Mandarin.</p>
+    <div class="page-container">
+        <div class="header panel">
+            <img src="https://via.placeholder.com/200x200/3498db/ffffff?text=Your+Photo" alt="Ergash Ruzehaji" class="profile-photo">
+            <div>
+                <h1>Ergash Ruzehaji</h1>
+                <p class="subtitle">Assistant</p>
+            </div>
         </div>
-        <aside>
-          <!-- If a profile image is present in the repo (e.g., Future.jpg or avatar.jpg) it will show here on wide screens -->
-          <img class="avatar" src="./Future.jpg" alt="Hero background or profile image">
-        </aside>
-      </div>
-    </section>
 
-    <section id="education" class="tab-content" aria-labelledby="education">
-      <h2 class="section-title">Education</h2>
-      <ul>
-        <li><strong>Chemistry, BA and Psychology, BS</strong> — University at Buffalo, Amherst (2007)</li>
-        <li><strong>Online:</strong> Data Science (Coursera), Web Development (freeCodeCamp)</li>
-        <li>Workshops: Public Speaking, Leadership, Makerspace training</li>
-      </ul>
-    </section>
+        <div class="content panel">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('about')">About Me</button>
+                <button class="tab-btn" onclick="showTab('education')">Education</button>
+                <button class="tab-btn" onclick="showTab('experience')">Experience</button>
+                <button class="tab-btn" onclick="showTab('skills')">Skills & Interests</button>
+                <button class="tab-btn" onclick="showTab('fun')">Fun Facts</button>
+            </div>
+            <div id="about" class="tab-content active">
+                <div class="section">
+                    <h2>About Me</h2>
+                    <p>I am an Asian American who tries to learn something new everyday, regardless of use. I try my best to be as independent as possible but then realize that I am only human. I do ask for assistance when I have reached my limit(s).</p>
+                    <p>I am into exercising, reading, and exploring anything on land, air or sea.</p>
+                </div>
+            </div>
+            <div id="education" class="tab-content">
+                <div class="section">
+                    <h2>Education</h2>
+                    <ul>
+                        <li><strong>Chem, BA and Psych, BS</strong> - UB at Amherst (2007)</li>
+                    </ul>
+                </div>
+            </div>
+            <div id="experience" class="tab-content">
+                <div class="section">
+                    <h2>Experience</h2>
+                    <ul>
+                        <li><strong>Property Manager</strong> - Independent (30years)
+                            <br>Kept daily maintenance and functions of properties.
+                            <br>Managed tenant relations and property inspections.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="skills" class="tab-content">
+                <div class="section">
+                    <h2>Skills & Interests</h2>
+                    <ul>
+                        <li>Working hands and learning building techniques</li>
+                    </ul>
+                </div>
+            </div>
+            <div id="fun" class="tab-content">
+                <div class="section">
+                    <h2>Fun Facts</h2>
+                    <ul>
+                        <li>I can speak more than one language.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-    <section id="experience" class="tab-content" aria-labelledby="experience">
-      <h2 class="section-title">Experience</h2>
-      <ul>
-        <li><strong>Property Manager:</strong> Independent (30 years) — maintenance, tenant relations, inspections.</li>
-        <li><strong>Community Volunteer:</strong> Organized cleanups and workshops.</li>
-        <li><strong>Event Organizer:</strong> Buffalo Asian Heritage Festival — logistics, vendors, marketing.</li>
-      </ul>
-    </section>
-
-    <section id="skills" class="tab-content" aria-labelledby="skills">
-      <h2 class="section-title">Skills & Interests</h2>
-      <ul>
-        <li>Carpentry, home repair, basic electronics</li>
-        <li>Python, HTML/CSS, Linux, Git & GitHub</li>
-        <li>Drone piloting, urban gardening, creative writing</li>
-      </ul>
-    </section>
-
-    <section id="fun" class="tab-content" aria-labelledby="fun">
-      <h2 class="section-title">Fun Facts</h2>
-      <ul>
-        <li>Speaks three languages.</li>
-        <li>Built a drone from scratch and flew it over Lake Erie.</li>
-        <li>Once hiked every city park in Buffalo in a single summer.</li>
-      </ul>
-    </section>
-
-    <section id="projects" class="tab-content" aria-labelledby="projects">
-      <h2 class="section-title">Projects</h2>
-      <ul class="projects-list" aria-live="polite">
-        <li class="project">
-          <div class="thumb" aria-hidden="true">Site</div>
-          <div>
-            <h3>Personal Website</h3>
-            <p>Responsive personal site with bio, projects, and contact info. Tech: HTML/CSS, small JS. <a href="https://github.com/ergashruzehaji" target="_blank" rel="noopener">Repo</a></p>
-          </div>
-        </li>
-        <li class="project">
-          <div class="thumb" aria-hidden="true">Drone</div>
-          <div>
-            <h3>Custom Drone Build</h3>
-            <p>Designed and assembled a quadcopter: frame, flight controller, camera integration.</p>
-          </div>
-        </li>
-        <li class="project">
-          <div class="thumb" aria-hidden="true">Events</div>
-          <div>
-            <h3>Community Event Platform</h3>
-            <p>Tools to register and manage vendors for the Buffalo Asian Heritage Festival.</p>
-          </div>
-        </li>
-        <li class="project">
-          <div class="thumb" aria-hidden="true">Data</div>
-          <div>
-            <h3>Data Science Coursework</h3>
-            <p>Projects analyzing datasets using Python, pandas, and visualization libraries.</p>
-          </div>
-        </li>
-      </ul>
-    </section>
-
-    <div class="contact-info" role="contentinfo">
-      <h2>Get in touch</h2>
-      <p>
-        <a href="mailto:ergash.ruzehaji@pursuit.com">Email</a> |
-        <a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener">LinkedIn</a> |
-        <a href="https://github.com/ergashruzehaji" target="_blank" rel="noopener">GitHub</a>
-      </p>
+        <div class="contact-info panel">
+            <h2>Get In Touch</h2>
+            <p>
+                <a href="mailto:ergash.ruzehaji@pursuit.com">Email</a> |
+                <a href="https://linkedin.com/in/yourprofile" target="_blank">LinkedIn</a> |
+                <a href="https://github.com/ergashruzehaji" target="_blank">GitHub</a> |
+                <a href="tel:+1234567890">Phone</a>
+            </p>
+        </div>
     </div>
-
-    <footer>
-      Last updated: 2025
-    </footer>
-  </main>
-
-  <script>
-    function showTab(id) {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-      // find the button with the onclick for this id and mark active
-      const btn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick') && b.getAttribute('onclick').includes(id));
-      if (btn) btn.classList.add('active');
-      const el = document.getElementById(id);
-      if (el) el.classList.add('active');
-      // scroll into view for smaller screens
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    <script>
+    function showTab(tabId) {
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelector('.tab-btn[onclick*="' + tabId + '"]').classList.add('active');
+        document.getElementById(tabId).classList.add('active');
     }
-  </script>
+    </script>
 </body>
 </html>
