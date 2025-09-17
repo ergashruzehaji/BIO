@@ -1,53 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ergash Ruzehaji - Concise</title>
-    <style>
-        body {
-            font-family: Georgia, serif;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-            color: #333;
-        }
-        
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .profile-photo {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 20px;
-            border: 4px solid #ddd;
-        }
-        
-        h1 {
-            color: #2c3e50;
-            margin: 10px 0;
-            font-size: 2.5em;
-        }
-        
-        .subtitle {
-            color: #7f8c8d;
-            font-size: 1.2em;
-            font-style: italic;
-        }
-        
-        .content {
-            background: white;
-            padding: 30px;
+    <div class="content">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('about')">About Me</button>
+            <button class="tab-btn" onclick="showTab('education')">Education</button>
+            <button class="tab-btn" onclick="showTab('experience')">Experience</button>
+            <button class="tab-btn" onclick="showTab('skills')">Skills & Interests</button>
+            <button class="tab-btn" onclick="showTab('fun')">Fun Facts</button>
+        </div>
+        <div id="about" class="tab-content active">
+            <div class="section">
+                <h2>About Me</h2>
+                <p>
+                    I am an Asian American who tries to learn something new everyday, regardless of use. I try my best to be as independent as possible but then realize that I am only human. I do ask for assistance when I have reached my limit(s).
+                </p>
+                <p>
+                   I am into exercising, reading, and exploring anything on land, air or sea.
+                </p>
+            </div>
+        </div>
+        <div id="education" class="tab-content">
+            <div class="section">
+                <h2>Education</h2>
+                <ul>
+                    <li><strong>Chem, BA and Psych, BS</strong> - UB at Amherst (2007)</li>
+                </ul>
+            </div>
+        </div>
+        <div id="experience" class="tab-content">
+            <div class="section">
+                <h2>Experience</h2>
+                <ul>
+                    <li><strong>Property Manager</strong> - Independent (30years)
+                        <br>Brief description of responsibilities and achievements.
+                    </li>
+                    <li><strong>Previous Job Title</strong> - Company Name (Years)
+                        <br>Brief description of responsibilities and achievements.
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="skills" class="tab-content">
+            <div class="section">
+                <h2>Skills & Interests</h2>
+                <ul>
+                    <li>Working hands and learning building techniques</li>
+                </ul>
+            </div>
+        </div>
+        <div id="fun" class="tab-content">
+            <div class="section">
+                <h2>Fun Facts</h2>
+                <ul>
+                    <li>Something interesting about you</li>
+                    <li>A hobby or unique experience</li>
+                    <li>An achievement you're proud of</li>
+                </ul>
+            </div>
+        </div>
+    </div>
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             margin-bottom: 30px;
@@ -89,6 +101,36 @@
             margin-bottom: 8px;
         }
     </style>
+        <style>
+            .tabs {
+                display: flex;
+                gap: 10px;
+                margin-bottom: 20px;
+                justify-content: center;
+            }
+            .tab-btn {
+                background: #3498db;
+                color: #fff;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px 5px 0 0;
+                cursor: pointer;
+                font-size: 1em;
+                transition: background 0.2s;
+            }
+            .tab-btn:not(.active):hover {
+                background: #2980b9;
+            }
+            .tab-btn.active {
+                background: #2c3e50;
+            }
+            .tab-content {
+                display: none;
+            }
+            .tab-content.active {
+                display: block;
+            }
+        </style>
 </head>
 <body>
     <div class="header">
@@ -151,4 +193,12 @@
         </p>
     </div>
 </body>
+<script>
+function showTab(tabId) {
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.querySelector('.tab-btn[onclick*="' + tabId + '"]').classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+}
+</script>
 </html>
