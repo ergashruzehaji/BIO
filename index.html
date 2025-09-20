@@ -138,6 +138,19 @@
     .content-area { display: block; }
     .tab-content { display: block; margin-bottom: 20px; }
 
+    /* Section grid: main text left, bullets panel right */
+    .section-grid {
+        display: grid;
+        grid-template-columns: 1fr 280px;
+        gap: 18px;
+        align-items: start;
+    }
+    .bullets-panel {
+        background: rgba(255,255,255,calc(var(--panel-alpha) - 0.05));
+        padding: 18px;
+        border-radius: 10px;
+    }
+
         .section { margin-bottom: 24px; }
         .section h2 {
             color: #2c3e50;
@@ -189,38 +202,57 @@
                 </div>
             </div>
             <div id="education" class="tab-content panel">
-                <div class="section">
-                    <h2>Education</h2>
-                    <ul>
-                        <li><strong>Chem, BA and Psych, BS</strong> - UB at Amherst (2007)</li>
-                    </ul>
+                <div class="section-grid">
+                    <div class="section">
+                        <h2>Education</h2>
+                        <p>Academic background and certifications.</p>
+                    </div>
+                    <aside class="bullets-panel" aria-label="Education highlights">
+                        <ul>
+                            <li><strong>Chem, BA and Psych, BS</strong> - UB at Amherst (2007)</li>
+                        </ul>
+                    </aside>
                 </div>
             </div>
             <div id="experience" class="tab-content panel">
-                <div class="section">
-                    <h2>Experience</h2>
-                    <ul>
-                        <li><strong>Property Manager</strong> - Independent (30years)
-                            <br>Kept daily maintenance and functions of properties.
-                            <br>Managed tenant relations and property inspections.
-                        </li>
-                    </ul>
+                <div class="section-grid">
+                    <div class="section">
+                        <h2>Experience</h2>
+                        <p>Professional experience managing properties and tenant relations.</p>
+                    </div>
+                    <aside class="bullets-panel" aria-label="Experience highlights">
+                        <ul>
+                            <li><strong>Property Manager</strong> - Independent (30 years)</li>
+                            <li>Daily maintenance and property operations</li>
+                            <li>Tenant relations and property inspections</li>
+                        </ul>
+                    </aside>
                 </div>
             </div>
             <div id="skills" class="tab-content panel">
-                <div class="section">
-                    <h2>Skills & Interests</h2>
-                    <ul>
-                        <li>Working hands and learning building techniques</li>
-                    </ul>
+                <div class="section-grid">
+                    <div class="section">
+                        <h2>Skills & Interests</h2>
+                        <p>Hands-on skills and personal interests.</p>
+                    </div>
+                    <aside class="bullets-panel" aria-label="Skills and interests">
+                        <ul>
+                            <li>Working hands and learning building techniques</li>
+                        </ul>
+                    </aside>
                 </div>
             </div>
             <div id="fun" class="tab-content panel">
-                <div class="section">
-                    <h2>Fun Facts</h2>
-                    <ul>
-                        <li>I can speak more than one language.</li>
-                    </ul>
+                <div class="section-grid">
+                    <div class="section">
+                        <h2>Fun Facts</h2>
+                        <p>Little-known facts and personal tidbits.</p>
+                    </div>
+                    <aside class="bullets-panel" aria-label="Fun facts">
+                        <ul>
+                            <li>I can speak more than one language.</li>
+                        </ul>
+                    </aside>
                 </div>
             </div>
         </main>
