@@ -24,7 +24,7 @@
         }
         body {
             font-family: 'Poppins', sans-serif;
-            font-size: 14px;
+            font-size: 16px; /* larger base font for easier reading */
             line-height: 1.6;
             color: #222;
             background: url('./Future.jpg') no-repeat center center fixed;
@@ -69,14 +69,17 @@
 
         /* Three-column layout: left nav (moved to right visually) + content + right bullets column (removed) */
         .page-container {
-            max-width: 980px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 28px 18px;
             box-sizing: border-box;
             min-height: 100vh;
-            display: block; /* single-column flow */
+            display: grid; /* two-column layout: nav + content */
+            grid-template-columns: 220px 1fr;
+            gap: 18px;
             position: relative;
             z-index: 1; /* ensure content sits above the body overlay */
+            align-items: start;
         }
 
         /* Reusable translucent panel to place on top of the background image */
@@ -105,17 +108,18 @@
 
         h1 { margin: 0; }
 
-        /* Inline vertical nav now sits above content in normal flow */
+        /* Left vertical nav column on desktop */
         .left-nav {
-            position: relative;
+            position: sticky;
+            top: 28px;
+            height: calc(100vh - 56px);
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             gap: 8px;
-            padding: 8px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            overflow-x: auto;
-            align-items: center;
+            padding: 12px;
+            border-radius: 12px;
+            overflow-y: auto;
+            align-items: stretch;
             background: rgba(255,255,255,calc(var(--panel-alpha) - 0.02));
         }
         .left-nav button {
@@ -123,11 +127,12 @@
             background: transparent;
             color: #111; /* make left nav labels black and readable */
             border: none;
-            padding: 10px 12px;
+            padding: 12px 14px; /* larger hit target for children */
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.05rem;
             transition: background 0.18s, color 0.18s;
+            width: 100%;
         }
         .left-nav button.active {
             background: #fff;
@@ -167,18 +172,14 @@
         .content-inner {
             max-width: 720px;
             margin: 0 auto;
-            position: relative; /* used for absolutely-positioned panels */
+            position: static;
             min-height: calc(100vh - 160px);
         }
-    /* Make each tab content occupy the viewport and center its inner content.
-       Only the active tab is visible (embedded in the page). */
-    /* Panels are layered on top of each other for a smooth cross-fade */
+    /* Make each tab content flow in document order inside the right column.
+       Only the active tab is visible; others are hidden via display. */
     .tab-content {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        position: relative;
+        display: none;
         padding: 28px 12px;
         box-sizing: border-box;
         opacity: 0;
@@ -188,6 +189,7 @@
         transition: opacity 320ms ease, transform 320ms ease, visibility 0s linear 320ms;
     }
     .tab-content.active {
+        display: block;
         opacity: 1;
         transform: none;
         visibility: visible;
@@ -195,6 +197,9 @@
         transition-delay: 0s;
     }
     .tab-content > .section { width: 100%; max-width: 720px; }
+
+    /* Ensure main page areas sit in the right-hand grid column */
+    .header, .content-area, .contact-info { grid-column: 2; }
 
         /* Highlights panel styling (embedded, centered) */
         .highlights {
@@ -220,7 +225,7 @@
             padding: 6px 10px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 1rem;
             backdrop-filter: blur(4px);
         }
         .section.collapsed .section-body { display: none; }
@@ -232,6 +237,9 @@
         /* Focus-visible outlines for keyboard users */
         :focus { outline: none; }
         :focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #3498db; outline-offset: 3px; }
+
+    /* visually-hidden helper for screen-reader-only content */
+    .visually-hidden { position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); white-space: nowrap; }
 
         .section { margin-bottom: 24px; }
         .section h2 {
@@ -247,9 +255,10 @@
         ul { padding-left: 20px; }
 
         @media (max-width: 900px) {
-            .page-container { grid-template-columns: 1fr; padding: 20px 12px; }
-            .left-nav { position: relative; top: 0; height: auto; flex-direction: row; overflow-x: auto; }
-            .left-nav button { white-space: nowrap; padding: 14px 16px; font-size: 1.05rem; }
+            .page-container { display: block; padding: 20px 12px; }
+            /* Keep the nav vertical (stacked) on small screens as well */
+            .left-nav { position: relative; top: 0; height: auto; flex-direction: column; overflow: visible; display:flex; width:100%; }
+            .left-nav button { white-space: normal; padding: 14px 16px; font-size: 1.05rem; width:100%; text-align:left; }
             .bullets-toggle { display: inline-block; }
             .section-grid { grid-template-columns: 1fr; }
             /* On smaller screens - no right-side column */
@@ -291,7 +300,7 @@
     <!-- high contrast is now enabled by default -->
     <div class="page-container">
         <!-- top-tabs removed per user request -->
-        <nav class="left-nav panel" role="tablist" aria-label="Main sections">
+    <nav class="left-nav panel" role="tablist" aria-label="Main sections">
             <button type="button" role="tab" data-target="about" class="active" aria-current="true" aria-selected="true" aria-controls="about">About Me</button>
             <button type="button" role="tab" data-target="education" aria-selected="false" aria-controls="education">Education</button>
             <button type="button" role="tab" data-target="experience" aria-selected="false" aria-controls="experience">Experience</button>
@@ -307,7 +316,7 @@
                 <p class="subtitle">Assistant</p>
             </div>
         </div>
-        <main class="content-area">
+    <main class="content-area" id="main-content">
             <div class="content-inner">
             <div id="about" class="tab-content panel" role="tabpanel" aria-hidden="false">
                 <div class="section" id="section-about">
@@ -393,6 +402,42 @@
         </div>
     </div>
     <script>
+    // Accessibility: live announcer for screen readers and simple announcements for children
+    (function() {
+        let announcer = document.getElementById('a11y-announcer');
+        if (!announcer) {
+            announcer = document.createElement('div');
+            announcer.id = 'a11y-announcer';
+            announcer.className = 'visually-hidden';
+            announcer.setAttribute('aria-live', 'polite');
+            announcer.setAttribute('aria-atomic', 'true');
+            document.body.appendChild(announcer);
+        }
+
+        const speak = (text) => {
+            try { announcer.textContent = text; } catch (e) { /* ignore */ }
+        };
+
+        // Announce when sections are activated via activateSection
+        const originalActivate = window.activateSection;
+        // If activateSection is defined later, we'll patch via events. Use DOM events instead.
+        document.addEventListener('section-activated', (e) => {
+            const id = e.detail && e.detail.id;
+            const titleEl = id ? document.querySelector('#' + id + ' h2') : null;
+            const title = titleEl ? titleEl.textContent : (id || 'section');
+            speak(title + ' section opened');
+        });
+
+        // Announce when a section is collapsed/expanded
+        document.addEventListener('section-toggle', (e) => {
+            const id = e.detail && e.detail.id;
+            const state = e.detail && e.detail.state; // 'collapsed' or 'expanded'
+            const titleEl = id ? document.querySelector('#' + id + ' h2') : null;
+            const title = titleEl ? titleEl.textContent : (id || 'section');
+            speak(title + ' ' + (state === 'collapsed' ? 'hidden' : 'shown'));
+        });
+    })();
+
     // Scrollspy + smooth scroll for navigation (left nav + top tabs)
     (function() {
     const nav = document.querySelector('.left-nav');
@@ -435,6 +480,12 @@
             document.querySelectorAll('.bullet-card').forEach(c => c.classList.remove('active'));
             const card = document.getElementById('bullet-' + id);
             if (card) card.classList.add('active');
+
+            // Dispatch a DOM event so screen readers / announcer can react
+            try {
+                const ev = new CustomEvent('section-activated', { detail: { id } });
+                document.dispatchEvent(ev);
+            } catch (e) { /* ignore */ }
         };
 
         // Wire left-nav buttons (ARIA tab behavior)
@@ -527,6 +578,11 @@
                 btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
                 btn.textContent = collapsed ? 'Show' : 'Hide';
                 try { localStorage.setItem(keyPrefix + id, collapsed ? '1' : '0'); } catch (e) {}
+                // Announce collapse/expand for assistive tech and children
+                try {
+                    const ev = new CustomEvent('section-toggle', { detail: { id: section.id || id, state: collapsed ? 'collapsed' : 'expanded' } });
+                    document.dispatchEvent(ev);
+                } catch (e) { /* ignore */ }
             });
         });
     })();
