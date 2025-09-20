@@ -160,7 +160,12 @@
         .top-tabs button.active { background: #3498db; color: #fff; }
 
     /* Content column uses panels per section and is scrollable with visible sections */
-    .content-area { display: block; }
+        .content-area { display: block; }
+        /* Center the main content between left nav and right bullets */
+        .content-inner {
+            max-width: 720px;
+            margin: 0 auto;
+        }
     .tab-content { display: block; margin-bottom: 20px; }
 
     /* Right-side bullets column (separate from tabs) */
@@ -242,12 +247,14 @@
             </div>
         </div>
         <main class="content-area">
+            <div class="content-inner">
             <div id="about" class="tab-content panel">
                 <div class="section">
                     <h2>About Me</h2>
                     <p>I am an Asian American who tries to learn something new everyday, regardless of use. I try my best to be as independent as possible but then realize that I am only human. I do ask for assistance when I have reached my limit(s).</p>
                     <p>I am into exercising, reading, and exploring anything on land, air or sea.</p>
                 </div>
+            </div>
             </div>
             <div id="education" class="tab-content panel">
                 <div class="section">
