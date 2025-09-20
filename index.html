@@ -340,6 +340,10 @@
                 <hr style="width:60px;border:none;height:4px;background:linear-gradient(90deg,#3498db,#2c3e50);margin:8px auto 12px;" />
             </div>
             <aside class="bullet-column panel" aria-label="Section highlights">
+                <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:6px;">
+                    <button id="pinHighlightsBtn" title="Pin highlights" style="background:transparent;border:none;cursor:pointer;padding:6px;border-radius:6px;">📌</button>
+                    <button id="closeHighlightsBtn" title="Close highlights" style="background:transparent;border:none;cursor:pointer;padding:6px;border-radius:6px;">✕</button>
+                </div>
             <div id="bullet-about" class="bullet-card">
                 <h3>About</h3>
                 <ul>
@@ -378,6 +382,9 @@
                 </ul>
             </div>
             </aside>
+
+            <!-- Small floating button to restore Highlights if closed -->
+            <button id="showHighlightsBtn" aria-hidden="true" style="position:fixed;right:22px;bottom:22px;z-index:9999;padding:10px 12px;border-radius:8px;border:none;background:#3498db;color:#fff;display:none;">Show Highlights</button>
 
             <div class="contact-info panel">
             <h2>Get In Touch</h2>
@@ -564,6 +571,42 @@
         }, { threshold: 0.45 });
 
         document.querySelectorAll('.tab-content').forEach(tc => animObserver.observe(tc));
+        
+        // Pin / close controls for Highlights
+        const highlights = document.querySelector('.bullet-column');
+        const pinBtn = document.getElementById('pinHighlightsBtn');
+        const closeBtn = document.getElementById('closeHighlightsBtn');
+        const showBtn = document.getElementById('showHighlightsBtn');
+        const visKey = 'highlightsVisible';
+        const pinKey = 'highlightsPinned';
+
+        const setVisibility = (visible) => {
+            if (!highlights) return;
+            highlights.style.display = visible ? 'flex' : 'none';
+            showBtn.style.display = visible ? 'none' : 'block';
+            try { localStorage.setItem(visKey, visible ? '1' : '0'); } catch (e) {}
+        };
+
+        const setPinned = (pinned) => {
+            if (!highlights) return;
+            document.body.classList.toggle('pin-highlights', !!pinned);
+            try { localStorage.setItem(pinKey, pinned ? '1' : '0'); } catch (e) {}
+        };
+
+        if (pinBtn) pinBtn.addEventListener('click', () => {
+            const currently = localStorage.getItem(pinKey) === '1';
+            setPinned(!currently);
+        });
+        if (closeBtn) closeBtn.addEventListener('click', () => setVisibility(false));
+        if (showBtn) showBtn.addEventListener('click', () => setVisibility(true));
+
+        // initialize from storage
+        try {
+            const pinned = localStorage.getItem(pinKey) === '1';
+            const visible = localStorage.getItem(visKey) !== '0';
+            setPinned(pinned);
+            setVisibility(visible);
+        } catch (e) {}
     })();
     </script>
 </body>
