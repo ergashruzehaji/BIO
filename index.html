@@ -71,8 +71,9 @@
             box-sizing: border-box;
             min-height: 100vh;
             display: grid;
-            grid-template-columns: 220px 1fr 320px;
-            gap: 24px;
+            /* move bullets closer to center by narrowing the right column and reducing gap */
+            grid-template-columns: 220px 1fr 260px;
+            gap: 18px;
             align-items: start;
             position: relative;
             z-index: 1; /* ensure content sits above the body overlay */
