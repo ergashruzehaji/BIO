@@ -171,18 +171,23 @@
 
     /* Right-side bullets column (separate from tabs) */
     .bullet-column {
-        /* center the bullet column under the main content: make it static and constrained */
-        position: static;
-        top: auto;
-        height: auto;
-        overflow: visible;
-        padding: 12px;
+        /* center the bullet column in the viewport for emphasis */
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        width: min(360px, 28vw);
+        max-width: 420px;
+        max-height: calc(80vh);
+        overflow: auto;
+        padding: 16px;
         border-radius: 12px;
         display: flex;
         flex-direction: column;
         gap: 12px;
-        max-width: 720px;
-        margin: 18px auto 0 auto;
+        z-index: 20; /* sit above main panels */
+        box-shadow: 0 12px 40px rgba(0,0,0,0.28);
+        background: rgba(255,255,255,calc(var(--panel-alpha) + 0.02));
     }
     .bullet-card {
         background: rgba(255,255,255,calc(var(--panel-alpha) - 0.02));
@@ -218,6 +223,8 @@
             .left-nav button { white-space: nowrap; }
             .bullets-toggle { display: inline-block; }
             .section-grid { grid-template-columns: 1fr; }
+            /* On smaller screens revert bullet column to flow within content */
+            .bullet-column { position: static; transform: none; left: auto; top: auto; width: auto; max-width: 720px; margin: 18px auto 0 auto; max-height: none; overflow: visible; z-index: 1; box-shadow: none; background: rgba(255,255,255,var(--panel-alpha)); }
         }
         @media (max-width: 600px) {
             .profile-photo { width: 80px; height: 80px; }
