@@ -134,6 +134,31 @@
             box-shadow: 0 6px 20px rgba(0,0,0,0.18);
         }
 
+        /* Top tabs: visible, sticky, high-contrast */
+        .top-tabs.panel {
+            grid-column: 1 / -1;
+            position: sticky;
+            top: 12px;
+            z-index: 999;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 16px;
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        }
+        .top-tabs button {
+            background: #2c3e50;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .top-tabs button.active { background: #3498db; color: #fff; }
+
     /* Content column uses panels per section and is scrollable with visible sections */
     .content-area { display: block; }
     .tab-content { display: block; margin-bottom: 20px; }
@@ -192,6 +217,14 @@
     <a class="skip-link" href="#about">Skip to content</a>
     <button id="contrastToggle" class="contrast-toggle" aria-pressed="false">High contrast</button>
     <div class="page-container">
+        <div class="top-tabs panel" role="tablist" aria-label="Top sections">
+            <button data-target="about" class="active">About Me</button>
+            <button data-target="education">Education</button>
+            <button data-target="experience">Experience</button>
+            <button data-target="skills">Skills</button>
+            <button data-target="projects">Projects</button>
+            <button data-target="fun">Fun</button>
+        </div>
         <nav class="left-nav panel" role="navigation" aria-label="Main sections">
             <button role="button" data-target="about" class="active" aria-current="true">About Me</button>
             <button role="button" data-target="education">Education</button>
@@ -305,12 +338,13 @@
         const nav = document.querySelector('.left-nav');
         if (!nav) return;
 
-        const buttons = Array.from(nav.querySelectorAll('button[data-target]'));
+    const buttons = Array.from(nav.querySelectorAll('button[data-target]'));
+    const topTabs = Array.from(document.querySelectorAll('.top-tabs button[data-target]'));
         const sections = buttons.map(b => document.getElementById(b.dataset.target)).filter(Boolean);
 
         // Smooth scroll on click + keyboard support will activate the same behavior
         buttons.forEach((btn, idx) => {
-            const activate = () => {
+            const activate = (source = 'nav') => {
                 const id = btn.dataset.target;
                 const el = document.getElementById(id);
                 if (!el) return;
@@ -318,12 +352,24 @@
                 // set active immediately for snappy feedback
                 buttons.forEach(b => b.classList.remove('active'));
                 buttons.forEach(b => b.removeAttribute('aria-current'));
+                topTabs.forEach(t => t.classList.remove('active'));
                 btn.classList.add('active');
                 btn.setAttribute('aria-current', 'true');
+                const top = topTabs.find(t => t.dataset.target === id);
+                if (top) top.classList.add('active');
+                // update bullet card
+                document.querySelectorAll('.bullet-card').forEach(c => c.classList.remove('active'));
+                const card = document.getElementById('bullet-' + id);
+                if (card) card.classList.add('active');
                 btn.focus();
             };
 
             btn.addEventListener('click', activate);
+
+            // Connect top tabs click behavior
+            topTabs.forEach(t => {
+                if (t.dataset.target === btn.dataset.target) return;
+            });
 
             btn.addEventListener('keydown', (e) => {
                 const key = e.key;
@@ -364,6 +410,10 @@
                     if (card) {
                         document.querySelectorAll('.bullet-card').forEach(c => c.classList.remove('active'));
                         card.classList.add('active');
+                        // also highlight top tabs
+                        topTabs.forEach(t => t.classList.remove('active'));
+                        const top = topTabs.find(t => t.dataset.target === id);
+                        if (top) top.classList.add('active');
                     }
                 }
             });
