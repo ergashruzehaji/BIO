@@ -6,6 +6,10 @@
     <title>Ergash Ruzehaji - Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <style>
+<<<<<<< HEAD
+=======
+        /* Full-viewport background using Future.jpg */
+>>>>>>> 99fe6d8 (Use Future.jpg as full-page background with translucent content panels)
         html, body {
             height: 100%;
             margin: 0;
@@ -19,24 +23,37 @@
             background-size: cover;
         }
 
+<<<<<<< HEAD
+=======
+        /* Centered page container so content sits on top of the image */
+>>>>>>> 99fe6d8 (Use Future.jpg as full-page background with translucent content panels)
         .page-container {
             max-width: 900px;
             margin: 0 auto;
             padding: 30px 20px;
             box-sizing: border-box;
+<<<<<<< HEAD
             min-height: 100vh;
+=======
+            min-height: 100vh; /* ensures full-height so background shows behind */
+>>>>>>> 99fe6d8 (Use Future.jpg as full-page background with translucent content panels)
             display: flex;
             flex-direction: column;
             justify-content: center;
             gap: 20px;
         }
+<<<<<<< HEAD
 
+=======
+        /* Reusable translucent panel to place on top of the background image */
+>>>>>>> 99fe6d8 (Use Future.jpg as full-page background with translucent content panels)
         .panel {
             background: rgba(255,255,255,0.82);
             border-radius: 12px;
             box-shadow: 0 6px 30px rgba(0,0,0,0.2);
             padding: 24px;
             backdrop-filter: blur(4px);
+<<<<<<< HEAD
         }
 
         .header {
@@ -56,17 +73,29 @@
 
         h1 { margin: 0; }
 
+=======
+        }
+
+        .content {
+            /* keep content-specific spacing but use the shared translucent panel look */
+            margin-bottom: 30px;
+        }
+>>>>>>> 99fe6d8 (Use Future.jpg as full-page background with translucent content panels)
         .tabs {
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
             justify-content: center;
+<<<<<<< HEAD
             flex-wrap: wrap;
+=======
+>>>>>>> 99fe6d8 (Use Future.jpg as full-page background with translucent content panels)
         }
         .tab-btn {
             background: #3498db;
             color: #fff;
             border: none;
+<<<<<<< HEAD
             padding: 10px 16px;
             border-radius: 6px;
             cursor: pointer;
@@ -78,12 +107,36 @@
         .tab-content.active { display: block; }
 
         .section { margin-bottom: 24px; }
+=======
+            padding: 10px 20px;
+            border-radius: 5px 5px 0 0;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background 0.2s;
+        }
+        .tab-btn:not(.active):hover {
+            background: #2980b9;
+        }
+        .tab-btn.active {
+            background: #2c3e50;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+>>>>>>> 99fe6d8 (Use Future.jpg as full-page background with translucent content panels)
         .section h2 {
             color: #2c3e50;
             border-bottom: 2px solid #3498db;
             padding-bottom: 10px;
             margin-bottom: 16px;
         }
+<<<<<<< HEAD
 
         .contact-info { text-align: center; }
         .contact-info a { color: #3498db; text-decoration: none; margin: 0 8px; }
@@ -97,6 +150,52 @@
     </style>
 </head>
 <body>
+=======
+        .contact-info {
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 3px solid rgba(255,255,255,0.6);
+        }
+        .contact-info a {
+            color: #3498db;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+        ul {
+            padding-left: 20px;
+        }
+        @media (max-width: 600px) {
+            .page-container { padding: 20px 12px; }
+            .profile-photo { width: 80px; height: 80px; }
+        }
+        <h1>Ergash Ruzehaji</h1>
+        <p class="subtitle">Assistant</p>
+    </div>
+>>>>>>> 99fe6d8 (Use Future.jpg as full-page background with translucent content panels)
     <div class="page-container">
         <div class="header panel">
             <img src="https://via.placeholder.com/200x200/3498db/ffffff?text=Your+Photo" alt="Ergash Ruzehaji" class="profile-photo">
@@ -104,6 +203,7 @@
                 <h1>Ergash Ruzehaji</h1>
                 <p class="subtitle">Assistant</p>
             </div>
+<<<<<<< HEAD
         </div>
 
         <div class="content panel">
@@ -168,6 +268,70 @@
             </p>
         </div>
     </div>
+=======
+        </div>
+
+        <div class="content panel">
+            <button class="tab-btn" onclick="showTab('fun')">Fun Facts</button>
+        </div>
+        <div id="about" class="tab-content active">
+            <div class="section">
+                <h2>About Me</h2>
+                <p>
+                    I am an Asian American who tries to learn something new everyday, regardless of use. I try my best to be as independent as possible but then realize that I am only human. I do ask for assistance when I have reached my limit(s).
+                </p>
+                <p>
+                   I am into exercising, reading, and exploring anything on land, air or sea.
+                </p>
+            </div>
+        </div>
+        <div id="education" class="tab-content">
+            <div class="section">
+                <h2>Education</h2>
+                <ul>
+                    <li><strong>Chem, BA and Psych, BS</strong> - UB at Amherst (2007)</li>
+                </ul>
+            </div>
+        </div>
+        <div id="experience" class="tab-content">
+            <div class="section">
+                <h2>Experience</h2>
+                <ul>
+                    <li><strong>Property Manager</strong> - Independent (30years)
+                        <br>Kept daily maintenance and functions of properties.
+                        <br>Managed tenant relations and property inspections.
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="skills" class="tab-content">
+            <div class="section">
+                <h2>Skills & Interests</h2>
+                <ul>
+                    <li>Working hands and learning building techniques</li>
+                </ul>
+            </div>
+        </div>
+        <div id="fun" class="tab-content">
+            <div class="section">
+                <h2>Fun Facts</h2>
+                <ul>
+                    <li>I can speak more than one language. </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+        <div class="contact-info panel">
+        <h2>Get In Touch</h2>
+        <p>
+            <a href="mailto:ergash.ruzehaji@pursuit.com">Email</a> |
+            <a href="https://linkedin.com/in/yourprofile" target="_blank">LinkedIn</a> |
+            <a href="https://github.com/ergashruzehaji" target="_blank">GitHub</a> |
+            <a href="tel:+1234567890">Phone</a>
+        </p>
+    </div>
+    </div>
+>>>>>>> 99fe6d8 (Use Future.jpg as full-page background with translucent content panels)
     <script>
     function showTab(tabId) {
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
