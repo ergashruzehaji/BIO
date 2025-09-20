@@ -162,15 +162,16 @@
     </style>
 </head>
 <body>
+    <a class="skip-link" href="#about">Skip to content</a>
     <button id="contrastToggle" class="contrast-toggle" aria-pressed="false">High contrast</button>
     <div class="page-container">
-        <div class="left-nav panel">
-            <button data-target="about" class="active">About Me</button>
-            <button data-target="education">Education</button>
-            <button data-target="experience">Experience</button>
-            <button data-target="skills">Skills & Interests</button>
-            <button data-target="fun">Fun Facts</button>
-        </div>
+        <nav class="left-nav panel" role="navigation" aria-label="Main sections">
+            <button role="button" data-target="about" class="active" aria-current="true">About Me</button>
+            <button role="button" data-target="education">Education</button>
+            <button role="button" data-target="experience">Experience</button>
+            <button role="button" data-target="skills">Skills & Interests</button>
+            <button role="button" data-target="fun">Fun Facts</button>
+        </nav>
 
         <div class="header panel">
             <img src="https://via.placeholder.com/200x200/3498db/ffffff?text=Your+Photo" alt="Ergash Ruzehaji" class="profile-photo">
@@ -243,16 +244,43 @@
         const buttons = Array.from(nav.querySelectorAll('button[data-target]'));
         const sections = buttons.map(b => document.getElementById(b.dataset.target)).filter(Boolean);
 
-        // Smooth scroll on click
-        buttons.forEach(btn => {
-            btn.addEventListener('click', e => {
+        // Smooth scroll on click + keyboard support will activate the same behavior
+        buttons.forEach((btn, idx) => {
+            const activate = () => {
                 const id = btn.dataset.target;
                 const el = document.getElementById(id);
                 if (!el) return;
                 el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 // set active immediately for snappy feedback
                 buttons.forEach(b => b.classList.remove('active'));
+                buttons.forEach(b => b.removeAttribute('aria-current'));
                 btn.classList.add('active');
+                btn.setAttribute('aria-current', 'true');
+                btn.focus();
+            };
+
+            btn.addEventListener('click', activate);
+
+            btn.addEventListener('keydown', (e) => {
+                const key = e.key;
+                if (key === 'Enter' || key === ' ') {
+                    e.preventDefault();
+                    activate();
+                } else if (key === 'ArrowDown') {
+                    e.preventDefault();
+                    const next = buttons[idx + 1] || buttons[0];
+                    next.focus();
+                } else if (key === 'ArrowUp') {
+                    e.preventDefault();
+                    const prev = buttons[idx - 1] || buttons[buttons.length - 1];
+                    prev.focus();
+                } else if (key === 'Home') {
+                    e.preventDefault();
+                    buttons[0].focus();
+                } else if (key === 'End') {
+                    e.preventDefault();
+                    buttons[buttons.length - 1].focus();
+                }
             });
         });
 
