@@ -147,9 +147,50 @@
     }
     .bullets-panel {
         background: rgba(255,255,255,calc(var(--panel-alpha) - 0.05));
-        padding: 18px;
+        padding: 14px 16px;
         border-radius: 10px;
+        border-left: 6px solid #3498db; /* colored left border */
+        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+        transform: translateY(8px);
+        opacity: 0;
+        transition: transform 420ms cubic-bezier(.2,.9,.3,1), opacity 420ms ease;
     }
+    .bullets-panel.reveal {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    .bullets-panel ul { list-style: none; margin: 0; padding: 0; }
+    .bullets-panel li {
+        position: relative;
+        padding-left: 28px;
+        margin-bottom: 10px;
+    }
+    .bullets-panel li::before {
+        content: '\2022';
+        position: absolute;
+        left: 6px;
+        top: 0;
+        color: #3498db;
+        font-weight: 700;
+        font-size: 1.25em;
+        line-height: 1;
+    }
+
+    /* Toggle for small screens: hide bullets by default and show toggle */
+    .bullets-toggle {
+        display: none;
+        background: transparent;
+        border: none;
+        font-weight: 600;
+        color: #2c3e50;
+        padding: 6px 8px;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-bottom: 8px;
+    }
+    .bullets-panel.collapsed ul { display: none; }
+    .bullets-panel .bullets-toggle[aria-expanded="false"]::after { content: ' ▸'; }
+    .bullets-panel .bullets-toggle[aria-expanded="true"]::after { content: ' ▾'; }
 
         .section { margin-bottom: 24px; }
         .section h2 {
@@ -168,6 +209,8 @@
             .page-container { grid-template-columns: 1fr; padding: 20px 12px; }
             .left-nav { position: relative; top: 0; height: auto; flex-direction: row; overflow-x: auto; }
             .left-nav button { white-space: nowrap; }
+            .bullets-toggle { display: inline-block; }
+            .section-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 600px) {
             .profile-photo { width: 80px; height: 80px; }
@@ -208,6 +251,7 @@
                         <p>Academic background and certifications.</p>
                     </div>
                     <aside class="bullets-panel" aria-label="Education highlights">
+                        <button class="bullets-toggle" aria-expanded="true">Highlights</button>
                         <ul>
                             <li><strong>Chem, BA and Psych, BS</strong> - UB at Amherst (2007)</li>
                         </ul>
@@ -221,6 +265,7 @@
                         <p>Professional experience managing properties and tenant relations.</p>
                     </div>
                     <aside class="bullets-panel" aria-label="Experience highlights">
+                        <button class="bullets-toggle" aria-expanded="true">Highlights</button>
                         <ul>
                             <li><strong>Property Manager</strong> - Independent (30 years)</li>
                             <li>Daily maintenance and property operations</li>
@@ -236,6 +281,7 @@
                         <p>Hands-on skills and personal interests.</p>
                     </div>
                     <aside class="bullets-panel" aria-label="Skills and interests">
+                        <button class="bullets-toggle" aria-expanded="true">Highlights</button>
                         <ul>
                             <li>Working hands and learning building techniques</li>
                         </ul>
@@ -249,6 +295,7 @@
                         <p>Little-known facts and personal tidbits.</p>
                     </div>
                     <aside class="bullets-panel" aria-label="Fun facts">
+                        <button class="bullets-toggle" aria-expanded="true">Highlights</button>
                         <ul>
                             <li>I can speak more than one language.</li>
                         </ul>
@@ -351,6 +398,31 @@
             const stored = localStorage.getItem('highContrast');
             setContrast(stored === '1');
         } catch (e) { /* ignore */ }
+    })();
+
+    // Bullets panels: reveal on scroll and allow collapse on small screens
+    (function() {
+        const panels = Array.from(document.querySelectorAll('.bullets-panel'));
+        if (!panels.length) return;
+
+        // IntersectionObserver to add reveal class
+        const revObs = new IntersectionObserver((entries) => {
+            entries.forEach(en => {
+                if (en.isIntersecting) en.target.classList.add('reveal');
+            });
+        }, { threshold: 0.12 });
+        panels.forEach(p => revObs.observe(p));
+
+        // Toggle behavior for small screens
+        panels.forEach(panel => {
+            const toggle = panel.querySelector('.bullets-toggle');
+            if (!toggle) return;
+            toggle.addEventListener('click', () => {
+                const expanded = toggle.getAttribute('aria-expanded') === 'true';
+                toggle.setAttribute('aria-expanded', String(!expanded));
+                panel.classList.toggle('collapsed', expanded);
+            });
+        });
     })();
     </script>
 </body>
