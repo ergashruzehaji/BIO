@@ -171,15 +171,18 @@
 
     /* Right-side bullets column (separate from tabs) */
     .bullet-column {
-        position: sticky;
-        top: 32px;
-        height: calc(100vh - 64px);
-        overflow: auto;
+        /* center the bullet column under the main content: make it static and constrained */
+        position: static;
+        top: auto;
+        height: auto;
+        overflow: visible;
         padding: 12px;
         border-radius: 12px;
         display: flex;
         flex-direction: column;
         gap: 12px;
+        max-width: 720px;
+        margin: 18px auto 0 auto;
     }
     .bullet-card {
         background: rgba(255,255,255,calc(var(--panel-alpha) - 0.02));
@@ -283,9 +286,9 @@
                     <p>Selected projects and portfolio items.</p>
                 </div>
             </div>
-        </main>
 
-        <aside class="bullet-column panel" aria-label="Section highlights">
+            <!-- move bullet column here so it centers under main content -->
+            <aside class="bullet-column panel" aria-label="Section highlights">
             <div id="bullet-about" class="bullet-card">
                 <h3>About</h3>
                 <ul>
@@ -323,9 +326,9 @@
                     <li>Speaks multiple languages</li>
                 </ul>
             </div>
-        </aside>
+            </aside>
 
-        <div class="contact-info panel">
+            <div class="contact-info panel">
             <h2>Get In Touch</h2>
             <p>
                 <a href="mailto:ergash.ruzehaji@pursuit.com">Email</a> |
