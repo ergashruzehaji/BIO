@@ -67,7 +67,7 @@
             z-index: 0;
         }
 
-        /* Three-column layout: left nav + content + right bullets column */
+        /* Three-column layout: left nav (moved to right visually) + content + right bullets column (removed) */
         .page-container {
             max-width: 1300px;
             margin: 0 auto;
@@ -75,8 +75,8 @@
             box-sizing: border-box;
             min-height: 100vh;
             display: grid;
-            /* move bullets closer to center by narrowing the right column and reducing gap */
-            grid-template-columns: 220px 1fr 260px;
+            /* layout: content centered, nav sits on right column (220px) */
+            grid-template-columns: 1fr 220px;
             gap: 18px;
             align-items: start;
             position: relative;
@@ -109,17 +109,20 @@
 
         h1 { margin: 0; }
 
-        /* Left sticky vertical nav */
+        /* Right-side vertical nav (keeps .left-nav class for compatibility) */
         .left-nav {
+            grid-column: 2 / 3;
+            align-self: center; /* vertically center in the grid cell */
             position: sticky;
-            top: 32px;
-            align-self: start;
-            height: calc(100vh - 64px);
+            top: 50%;
+            transform: translateY(-50%);
+            height: auto;
             padding: 12px;
             border-radius: 12px;
             display: flex;
             flex-direction: column;
             gap: 8px;
+            justify-content: center;
         }
         .left-nav button {
             text-align: left;
@@ -165,7 +168,7 @@
         .top-tabs button.active { background: #3498db; color: #fff; }
 
         /* Content column uses panels per section and is scrollable with visible sections */
-        .content-area { display: block; }
+    .content-area { display: block; grid-column: 1 / 2; }
         /* Center the main content between left nav and right bullets */
         .content-inner {
             max-width: 720px;
@@ -223,7 +226,7 @@
             margin-bottom: 16px;
         }
 
-        .contact-info { text-align: center; }
+    .contact-info { text-align: center; grid-column: 1 / 2; }
         .contact-info a { color: #3498db; text-decoration: none; margin: 0 8px; }
 
         ul { padding-left: 20px; }
