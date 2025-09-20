@@ -225,6 +225,14 @@
         }
         .section.collapsed .section-body { display: none; }
 
+        /* Skip link visibility and focus styles */
+        .skip-link { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+        .skip-link:focus, .skip-link:active { position: static; left: auto; width: auto; height: auto; padding: 8px 12px; background: #fff; color: #111; z-index: 10000; border-radius: 6px; text-decoration: none; }
+
+        /* Focus-visible outlines for keyboard users */
+        :focus { outline: none; }
+        :focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #3498db; outline-offset: 3px; }
+
         .section { margin-bottom: 24px; }
         .section h2 {
             color: #2c3e50;
@@ -268,7 +276,7 @@
 </head>
 <body class="high-contrast">
     <!-- Options floating control -->
-    <button id="optionsToggle" class="contrast-toggle" aria-pressed="false" style="left:16px; right:auto;">Options</button>
+    <button type="button" id="optionsToggle" class="contrast-toggle" aria-pressed="false" style="left:16px; right:auto;">Options</button>
     <div id="optionsPanel" class="panel" role="dialog" aria-modal="false" style="position:fixed;left:16px;bottom:72px;z-index:9999;display:none;min-width:220px;">
         <h3 style="margin:0 0 8px 0;font-size:0.95rem;">Display options</h3>
         <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
@@ -284,12 +292,12 @@
     <div class="page-container">
         <!-- top-tabs removed per user request -->
         <nav class="left-nav panel" role="tablist" aria-label="Main sections">
-            <button role="tab" data-target="about" class="active" aria-current="true" aria-selected="true" aria-controls="about">About Me</button>
-            <button role="tab" data-target="education" aria-selected="false" aria-controls="education">Education</button>
-            <button role="tab" data-target="experience" aria-selected="false" aria-controls="experience">Experience</button>
-            <button role="tab" data-target="skills" aria-selected="false" aria-controls="skills">Skills & Interests</button>
-            <button role="tab" data-target="projects" aria-selected="false" aria-controls="projects">Projects</button>
-            <button role="tab" data-target="fun" aria-selected="false" aria-controls="fun">Fun Facts</button>
+            <button type="button" role="tab" data-target="about" class="active" aria-current="true" aria-selected="true" aria-controls="about">About Me</button>
+            <button type="button" role="tab" data-target="education" aria-selected="false" aria-controls="education">Education</button>
+            <button type="button" role="tab" data-target="experience" aria-selected="false" aria-controls="experience">Experience</button>
+            <button type="button" role="tab" data-target="skills" aria-selected="false" aria-controls="skills">Skills & Interests</button>
+            <button type="button" role="tab" data-target="projects" aria-selected="false" aria-controls="projects">Projects</button>
+            <button type="button" role="tab" data-target="fun" aria-selected="false" aria-controls="fun">Fun Facts</button>
         </nav>
 
         <div class="header panel">
@@ -305,7 +313,7 @@
                 <div class="section" id="section-about">
                     <div class="section-head">
                         <h2>About Me</h2>
-                        <button class="section-toggle" aria-expanded="true" aria-controls="section-about-content">Hide</button>
+                        <button type="button" class="section-toggle" aria-expanded="true" aria-controls="section-about-content">Hide</button>
                     </div>
                     <div id="section-about-content" class="section-body">
                     <p>I am an Asian American who tries to learn something new everyday, regardless of use. I try my best to be as independent as possible but then realize that I am only human. I do ask for assistance when I have reached my limit(s).</p>
@@ -318,7 +326,7 @@
                 <div class="section" id="section-education">
                     <div class="section-head">
                         <h2>Education</h2>
-                        <button class="section-toggle" aria-expanded="true" aria-controls="section-education-content">Hide</button>
+                        <button type="button" class="section-toggle" aria-expanded="true" aria-controls="section-education-content">Hide</button>
                     </div>
                     <div id="section-education-content" class="section-body">
                         <p>Academic background and certifications.</p>
@@ -329,7 +337,7 @@
                 <div class="section" id="section-experience">
                     <div class="section-head">
                         <h2>Experience</h2>
-                        <button class="section-toggle" aria-expanded="true" aria-controls="section-experience-content">Hide</button>
+                        <button type="button" class="section-toggle" aria-expanded="true" aria-controls="section-experience-content">Hide</button>
                     </div>
                     <div id="section-experience-content" class="section-body">
                         <p>Professional experience managing properties and tenant relations.</p>
@@ -340,7 +348,7 @@
                 <div class="section" id="section-skills">
                     <div class="section-head">
                         <h2>Skills & Interests</h2>
-                        <button class="section-toggle" aria-expanded="true" aria-controls="section-skills-content">Hide</button>
+                        <button type="button" class="section-toggle" aria-expanded="true" aria-controls="section-skills-content">Hide</button>
                     </div>
                     <div id="section-skills-content" class="section-body">
                         <p>Hands-on skills and personal interests.</p>
@@ -351,7 +359,7 @@
                 <div class="section" id="section-fun">
                     <div class="section-head">
                         <h2>Fun Facts</h2>
-                        <button class="section-toggle" aria-expanded="true" aria-controls="section-fun-content">Hide</button>
+                        <button type="button" class="section-toggle" aria-expanded="true" aria-controls="section-fun-content">Hide</button>
                     </div>
                     <div id="section-fun-content" class="section-body">
                         <p>Little-known facts and personal tidbits.</p>
@@ -363,7 +371,7 @@
                 <div class="section" id="section-projects">
                     <div class="section-head">
                         <h2>Projects</h2>
-                        <button class="section-toggle" aria-expanded="true" aria-controls="section-projects-content">Hide</button>
+                        <button type="button" class="section-toggle" aria-expanded="true" aria-controls="section-projects-content">Hide</button>
                     </div>
                     <div id="section-projects-content" class="section-body">
                         <p>Selected projects and portfolio items.</p>
