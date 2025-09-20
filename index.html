@@ -218,6 +218,19 @@
         .highlights ul { margin: 0; padding-left: 20px; }
         .highlights li { margin-bottom: 6px; }
 
+        /* Section collapse styling */
+        .section-head { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+        .section-toggle {
+            background: transparent;
+            border: 1px solid rgba(0,0,0,0.08);
+            padding: 6px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            backdrop-filter: blur(4px);
+        }
+        .section.collapsed .section-body { display: none; }
+
         .section { margin-bottom: 24px; }
         .section h2 {
             color: #2c3e50;
@@ -295,48 +308,72 @@
         <main class="content-area">
             <div class="content-inner">
             <div id="about" class="tab-content panel" role="tabpanel" aria-hidden="false">
-                <div class="section">
-                    <h2>About Me</h2>
+                <div class="section" id="section-about">
+                    <div class="section-head">
+                        <h2>About Me</h2>
+                        <button class="section-toggle" aria-expanded="true" aria-controls="section-about-content">Hide</button>
+                    </div>
+                    <div id="section-about-content" class="section-body">
                     <p>I am an Asian American who tries to learn something new everyday, regardless of use. I try my best to be as independent as possible but then realize that I am only human. I do ask for assistance when I have reached my limit(s).</p>
                     <p>I am into exercising, reading, and exploring anything on land, air or sea.</p>
-                    <!-- Highlights removed -->
+                    </div>
                 </div>
             </div>
             </div>
             <div id="education" class="tab-content panel" role="tabpanel" aria-hidden="true">
-                <div class="section">
-                    <h2>Education</h2>
-                    <p>Academic background and certifications.</p>
-                    <!-- Highlights removed -->
+                <div class="section" id="section-education">
+                    <div class="section-head">
+                        <h2>Education</h2>
+                        <button class="section-toggle" aria-expanded="true" aria-controls="section-education-content">Hide</button>
+                    </div>
+                    <div id="section-education-content" class="section-body">
+                        <p>Academic background and certifications.</p>
+                    </div>
                 </div>
             </div>
             <div id="experience" class="tab-content panel" role="tabpanel" aria-hidden="true">
-                <div class="section">
-                    <h2>Experience</h2>
-                    <p>Professional experience managing properties and tenant relations.</p>
-                    <!-- Highlights removed -->
+                <div class="section" id="section-experience">
+                    <div class="section-head">
+                        <h2>Experience</h2>
+                        <button class="section-toggle" aria-expanded="true" aria-controls="section-experience-content">Hide</button>
+                    </div>
+                    <div id="section-experience-content" class="section-body">
+                        <p>Professional experience managing properties and tenant relations.</p>
+                    </div>
                 </div>
             </div>
             <div id="skills" class="tab-content panel" role="tabpanel" aria-hidden="true">
-                <div class="section">
-                    <h2>Skills & Interests</h2>
-                    <p>Hands-on skills and personal interests.</p>
-                    <!-- Highlights removed -->
+                <div class="section" id="section-skills">
+                    <div class="section-head">
+                        <h2>Skills & Interests</h2>
+                        <button class="section-toggle" aria-expanded="true" aria-controls="section-skills-content">Hide</button>
+                    </div>
+                    <div id="section-skills-content" class="section-body">
+                        <p>Hands-on skills and personal interests.</p>
+                    </div>
                 </div>
             </div>
             <div id="fun" class="tab-content panel" role="tabpanel" aria-hidden="true">
-                <div class="section">
-                    <h2>Fun Facts</h2>
-                    <p>Little-known facts and personal tidbits.</p>
-                    <!-- Highlights removed -->
+                <div class="section" id="section-fun">
+                    <div class="section-head">
+                        <h2>Fun Facts</h2>
+                        <button class="section-toggle" aria-expanded="true" aria-controls="section-fun-content">Hide</button>
+                    </div>
+                    <div id="section-fun-content" class="section-body">
+                        <p>Little-known facts and personal tidbits.</p>
+                    </div>
                 </div>
             </div>
 
             <div id="projects" class="tab-content panel" role="tabpanel" aria-hidden="true">
-                <div class="section">
-                    <h2>Projects</h2>
-                    <p>Selected projects and portfolio items.</p>
-                    <!-- Highlights removed -->
+                <div class="section" id="section-projects">
+                    <div class="section-head">
+                        <h2>Projects</h2>
+                        <button class="section-toggle" aria-expanded="true" aria-controls="section-projects-content">Hide</button>
+                    </div>
+                    <div id="section-projects-content" class="section-body">
+                        <p>Selected projects and portfolio items.</p>
+                    </div>
                 </div>
             </div>
 
@@ -459,6 +496,35 @@
                 const expanded = toggle.getAttribute('aria-expanded') === 'true';
                 toggle.setAttribute('aria-expanded', String(!expanded));
                 panel.classList.toggle('collapsed', expanded);
+            });
+        });
+    })();
+
+    // Section collapse/expand with persistence
+    (function() {
+        const keyPrefix = 'sectionCollapsed:';
+        const toggles = Array.from(document.querySelectorAll('.section-toggle'));
+        toggles.forEach(btn => {
+            const targetId = btn.getAttribute('aria-controls');
+            const sectionBody = document.getElementById(targetId);
+            if (!sectionBody) return;
+            const section = sectionBody.closest('.section');
+            if (!section) return;
+
+            const id = section.id || targetId;
+            const stored = localStorage.getItem(keyPrefix + id);
+            const isCollapsed = stored === '1';
+            if (isCollapsed) {
+                section.classList.add('collapsed');
+                btn.setAttribute('aria-expanded', 'false');
+                btn.textContent = 'Show';
+            }
+
+            btn.addEventListener('click', () => {
+                const collapsed = section.classList.toggle('collapsed');
+                btn.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+                btn.textContent = collapsed ? 'Show' : 'Hide';
+                try { localStorage.setItem(keyPrefix + id, collapsed ? '1' : '0'); } catch (e) {}
             });
         });
     })();
