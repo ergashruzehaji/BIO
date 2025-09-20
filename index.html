@@ -171,8 +171,12 @@
             max-width: 720px;
             margin: 0 auto;
         }
-    /* Make each tab content occupy the viewport and center its inner content */
+    /* Make each tab content occupy the viewport and center its inner content.
+       Only the active tab is visible (embedded in the page). */
     .tab-content {
+        display: none;
+    }
+    .tab-content.active {
         display: flex;
         align-items: center; /* vertical centering */
         justify-content: center; /* horizontal centering */
@@ -408,19 +412,21 @@
         const sections = buttons.map(b => document.getElementById(b.dataset.target)).filter(Boolean);
 
         // Centralized activation so left-nav, top-tabs, and bullets stay in sync
-        const activateSection = (id, { scroll = true, source = 'manual' } = {}) => {
+        const activateSection = (id, { source = 'manual' } = {}) => {
             const el = document.getElementById(id);
             if (!el) return;
-            if (scroll) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // Show only the active tab content (embedded in page)
+            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.toggle('active', tc.id === id));
 
             // update left nav
             buttons.forEach(b => b.classList.toggle('active', b.dataset.target === id));
             buttons.forEach(b => b.toggleAttribute('aria-current', b.dataset.target === id));
 
-            // update top tabs
+            // update top tabs (if present)
             topTabs.forEach(t => t.classList.toggle('active', t.dataset.target === id));
 
-            // update bullets
+            // update bullets: highlight the matching card
             document.querySelectorAll('.bullet-card').forEach(c => c.classList.remove('active'));
             const card = document.getElementById('bullet-' + id);
             if (card) card.classList.add('active');
@@ -439,6 +445,12 @@
             });
         });
 
+        // Initialize default active section
+        window.addEventListener('DOMContentLoaded', () => {
+            const initial = buttons.find(b => b.classList.contains('active')) || buttons[0];
+            if (initial) activateSection(initial.dataset.target, { source: 'init' });
+        });
+
         // Wire top-tabs buttons (mouse + keyboard)
         topTabs.forEach((t, idx) => {
             t.addEventListener('click', (e) => { e.preventDefault(); activateSection(t.dataset.target, { scroll: true, source: 'top' }); t.focus(); });
@@ -452,22 +464,10 @@
             });
         });
 
-        // Map bullets for quick lookup
+        // No intersection-based auto-activation: activation happens only via nav clicks
+        // Map bullets for quick lookup (kept for bullets highlighting)
         const bulletMap = new Map();
         sections.forEach(s => { const card = document.getElementById('bullet-' + s.id); if (card) bulletMap.set(s.id, card); });
-
-        // IntersectionObserver to update active states when scrolling
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                const id = entry.target.id;
-                // consider a section active when its center is visible
-                if (entry.isIntersecting && entry.intersectionRatio > 0.25) {
-                    activateSection(id, { scroll: false, source: 'observer' });
-                }
-            });
-        }, { threshold: [0.05, 0.25, 0.35, 0.6] });
-
-        sections.forEach(s => observer.observe(s));
     })();
 
     // Contrast toggle: toggles .high-contrast on body and persists choice
