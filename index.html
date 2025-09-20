@@ -259,7 +259,7 @@
         }
     </style>
 </head>
-<body>
+<body class="high-contrast">
     <!-- Options floating control -->
     <button id="optionsToggle" class="contrast-toggle" aria-pressed="false" style="left:16px; right:auto;">Options</button>
     <div id="optionsPanel" class="panel" role="dialog" aria-modal="false" style="position:fixed;left:16px;bottom:72px;z-index:9999;display:none;min-width:220px;">
@@ -273,7 +273,7 @@
         <!-- Pin Highlights option removed -->
     </div>
     <a class="skip-link" href="#about">Skip to content</a>
-    <button id="contrastToggle" class="contrast-toggle" aria-pressed="false">High contrast</button>
+    <!-- high contrast is now enabled by default -->
     <div class="page-container">
         <!-- top-tabs removed per user request -->
         <nav class="left-nav panel" role="tablist" aria-label="Main sections">
@@ -299,13 +299,7 @@
                     <h2>About Me</h2>
                     <p>I am an Asian American who tries to learn something new everyday, regardless of use. I try my best to be as independent as possible but then realize that I am only human. I do ask for assistance when I have reached my limit(s).</p>
                     <p>I am into exercising, reading, and exploring anything on land, air or sea.</p>
-                    <div class="highlights panel">
-                        <h3>Highlights</h3>
-                        <ul>
-                            <li>Curious learner</li>
-                            <li>Enjoys exercise and reading</li>
-                        </ul>
-                    </div>
+                    <!-- Highlights removed -->
                 </div>
             </div>
             </div>
@@ -313,48 +307,28 @@
                 <div class="section">
                     <h2>Education</h2>
                     <p>Academic background and certifications.</p>
-                    <div class="highlights panel">
-                        <h3>Highlights</h3>
-                        <ul>
-                            <li>Chem, BA and Psych, BS — UB at Amherst (2007)</li>
-                        </ul>
-                    </div>
+                    <!-- Highlights removed -->
                 </div>
             </div>
             <div id="experience" class="tab-content panel" role="tabpanel" aria-hidden="true">
                 <div class="section">
                     <h2>Experience</h2>
                     <p>Professional experience managing properties and tenant relations.</p>
-                    <div class="highlights panel">
-                        <h3>Highlights</h3>
-                        <ul>
-                            <li>Property Manager — Independent (30 years)</li>
-                        </ul>
-                    </div>
+                    <!-- Highlights removed -->
                 </div>
             </div>
             <div id="skills" class="tab-content panel" role="tabpanel" aria-hidden="true">
                 <div class="section">
                     <h2>Skills & Interests</h2>
                     <p>Hands-on skills and personal interests.</p>
-                    <div class="highlights panel">
-                        <h3>Highlights</h3>
-                        <ul>
-                            <li>Hands-on building techniques</li>
-                        </ul>
-                    </div>
+                    <!-- Highlights removed -->
                 </div>
             </div>
             <div id="fun" class="tab-content panel" role="tabpanel" aria-hidden="true">
                 <div class="section">
                     <h2>Fun Facts</h2>
                     <p>Little-known facts and personal tidbits.</p>
-                    <div class="highlights panel">
-                        <h3>Highlights</h3>
-                        <ul>
-                            <li>Speaks multiple languages</li>
-                        </ul>
-                    </div>
+                    <!-- Highlights removed -->
                 </div>
             </div>
 
@@ -362,12 +336,7 @@
                 <div class="section">
                     <h2>Projects</h2>
                     <p>Selected projects and portfolio items.</p>
-                    <div class="highlights panel">
-                        <h3>Highlights</h3>
-                        <ul>
-                            <li>Project placeholders — add real projects</li>
-                        </ul>
-                    </div>
+                    <!-- Highlights removed -->
                 </div>
             </div>
 
@@ -467,28 +436,7 @@
     // No intersection-based auto-activation: activation happens only via nav clicks
     })();
 
-    // Contrast toggle: toggles .high-contrast on body and persists choice
-    (function() {
-        const btn = document.getElementById('contrastToggle');
-        if (!btn) return;
-
-        const setContrast = isOn => {
-            document.body.classList.toggle('high-contrast', isOn);
-            btn.setAttribute('aria-pressed', String(!!isOn));
-            btn.textContent = isOn ? 'Normal contrast' : 'High contrast';
-            try { localStorage.setItem('highContrast', isOn ? '1' : '0'); } catch (e) {}
-        };
-
-        btn.addEventListener('click', () => setContrast(btn.getAttribute('aria-pressed') !== 'true'));
-
-        // Initialize from localStorage
-        try {
-            // Default to high-contrast unless the user explicitly set normal contrast
-            const stored = localStorage.getItem('highContrast');
-            const useHigh = (stored === null) ? true : (stored === '1');
-            setContrast(useHigh);
-        } catch (e) { /* ignore */ }
-    })();
+    // High contrast is permanent by default (no toggle)
 
     // Bullets panels: reveal on scroll and allow collapse on small screens
     (function() {
