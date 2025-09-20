@@ -433,8 +433,10 @@
 
         // Initialize from localStorage
         try {
+            // Default to high-contrast unless the user explicitly set normal contrast
             const stored = localStorage.getItem('highContrast');
-            setContrast(stored === '1');
+            const useHigh = (stored === null) ? true : (stored === '1');
+            setContrast(useHigh);
         } catch (e) { /* ignore */ }
     })();
 
@@ -463,7 +465,7 @@
         });
     })();
 
-    // Options panel behavior: toggles for scroll-snap, animations, and pinning highlights
+    // Options panel behavior: toggles for scroll-snap and section animations
     (function() {
         const btn = document.getElementById('optionsToggle');
         const panel = document.getElementById('optionsPanel');
