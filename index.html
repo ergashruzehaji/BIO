@@ -199,40 +199,7 @@
     }
     .tab-content > .section { width: 100%; max-width: 720px; }
 
-    /* Right-side bullets column (separate from tabs) */
-    .bullet-column {
-        /* center the bullet column in the viewport for emphasis */
-        position: fixed;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        width: min(360px, 28vw);
-        max-width: 420px;
-        max-height: calc(80vh);
-        overflow: auto;
-        padding: 16px;
-        border-radius: 12px;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        z-index: 20; /* sit above main panels */
-        box-shadow: 0 12px 40px rgba(0,0,0,0.28);
-        background: rgba(255,255,255,calc(var(--panel-alpha) + 0.02));
-    }
-    .bullet-card {
-        background: rgba(255,255,255,calc(var(--panel-alpha) - 0.02));
-        padding: 16px;
-        border-radius: 10px;
-        border-left: 6px solid #2c3e50;
-        box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-        font-size: 15px;
-        text-align: center; /* center bullet information */
-    }
-    .bullet-card h3 { margin: 0 0 8px 0; color: #2c3e50; }
-    /* keep lists readable by centering the list container but left-aligning list items */
-    .bullet-card ul { margin: 0 auto; padding-left: 20px; display: inline-block; text-align: left; }
-    .bullet-card li { margin-bottom: 8px; }
-    .bullet-card.active { outline: 3px solid rgba(52,152,219,0.18); }
+        /* Bullet column removed (right-side Highlights removed per user) */
 
         .section { margin-bottom: 24px; }
         .section h2 {
@@ -255,8 +222,7 @@
             .section-grid { grid-template-columns: 1fr; }
             /* On smaller screens revert bullet column to flow within content */
             .bullet-column { position: static; transform: none; left: auto; top: auto; width: auto; max-width: 720px; margin: 18px auto 0 auto; max-height: none; overflow: visible; z-index: 1; box-shadow: none; background: rgba(255,255,255,var(--panel-alpha)); }
-            /* Hide floating show highlights button on small screens */
-            #showHighlightsBtn { display: none !important; }
+            /* Hide floating show highlights button on small screens (removed) */
             /* Panels revert to normal flow on small screens (no overlay) */
             .content-inner { min-height: auto; position: static; }
             .tab-content { position: relative; visibility: visible; opacity: 1; transform: none; pointer-events: auto; transition: none; display: block; }
@@ -271,8 +237,7 @@
         body.animations .tab-content .section { opacity: 0; transform: translateY(10px); }
         body.animations .tab-content.revealed .section { opacity: 1; transform: none; }
 
-        /* When pinning highlights, make the panel stick to the right side */
-        body.pin-highlights .bullet-column { position: fixed; right: 28px; left: auto; top: 50%; transform: translateY(-50%); width: min(360px, 26vw); }
+    /* Pin-highlights removed */
         @media (max-width: 600px) {
             .profile-photo { width: 80px; height: 80px; }
         }
@@ -289,9 +254,7 @@
         <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
             <input type="checkbox" id="optAnimations"> Section animations
         </label>
-        <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-            <input type="checkbox" id="optPinHighlights"> Pin Highlights panel
-        </label>
+        <!-- Pin Highlights option removed -->
     </div>
     <a class="skip-link" href="#about">Skip to content</a>
     <button id="contrastToggle" class="contrast-toggle" aria-pressed="false">High contrast</button>
@@ -356,56 +319,7 @@
             </div>
 
             <!-- move bullet column here so it centers under main content -->
-            <div class="highlights-header" style="text-align:center;margin-top:12px;">
-                <h2 style="margin:0;color:#2c3e50;">Highlights</h2>
-                <hr style="width:60px;border:none;height:4px;background:linear-gradient(90deg,#3498db,#2c3e50);margin:8px auto 12px;" />
-            </div>
-            <aside class="bullet-column panel" aria-label="Section highlights">
-                <div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:6px;">
-                    <button id="pinHighlightsBtn" title="Pin highlights" style="background:transparent;border:none;cursor:pointer;padding:6px;border-radius:6px;">📌</button>
-                    <button id="closeHighlightsBtn" title="Close highlights" style="background:transparent;border:none;cursor:pointer;padding:6px;border-radius:6px;">✕</button>
-                </div>
-            <div id="bullet-about" class="bullet-card">
-                <h3>About</h3>
-                <ul>
-                    <li>Curious learner</li>
-                    <li>Enjoys exercise and reading</li>
-                </ul>
-            </div>
-            <div id="bullet-education" class="bullet-card">
-                <h3>Education</h3>
-                <ul>
-                    <li>Chem, BA and Psych, BS — UB at Amherst (2007)</li>
-                </ul>
-            </div>
-            <div id="bullet-experience" class="bullet-card">
-                <h3>Experience</h3>
-                <ul>
-                    <li>Property Manager — Independent (30 years)</li>
-                </ul>
-            </div>
-            <div id="bullet-skills" class="bullet-card">
-                <h3>Skills</h3>
-                <ul>
-                    <li>Hands-on building techniques</li>
-                </ul>
-            </div>
-            <div id="bullet-projects" class="bullet-card">
-                <h3>Projects</h3>
-                <ul>
-                    <li>Project placeholders — add real projects</li>
-                </ul>
-            </div>
-            <div id="bullet-fun" class="bullet-card">
-                <h3>Fun</h3>
-                <ul>
-                    <li>Speaks multiple languages</li>
-                </ul>
-            </div>
-            </aside>
-
-            <!-- Small floating button to restore Highlights if closed -->
-            <button id="showHighlightsBtn" aria-hidden="true" style="position:fixed;right:22px;bottom:22px;z-index:9999;padding:10px 12px;border-radius:8px;border:none;background:#3498db;color:#fff;display:none;">Show Highlights</button>
+            <!-- Highlights removed (right-side content removed per user's request) -->
 
             <div class="contact-info panel">
             <h2>Get In Touch</h2>
@@ -553,9 +467,8 @@
     (function() {
         const btn = document.getElementById('optionsToggle');
         const panel = document.getElementById('optionsPanel');
-        const optSnap = document.getElementById('optScrollSnap');
-        const optAnim = document.getElementById('optAnimations');
-        const optPin = document.getElementById('optPinHighlights');
+    const optSnap = document.getElementById('optScrollSnap');
+    const optAnim = document.getElementById('optAnimations');
 
         if (!btn || !panel) return;
 
@@ -563,10 +476,8 @@
         const applyPrefs = (prefs) => {
             document.body.classList.toggle('scroll-snap', !!prefs.scrollSnap);
             document.body.classList.toggle('animations', !!prefs.animations);
-            document.body.classList.toggle('pin-highlights', !!prefs.pinHighlights);
             if (optSnap) optSnap.checked = !!prefs.scrollSnap;
             if (optAnim) optAnim.checked = !!prefs.animations;
-            if (optPin) optPin.checked = !!prefs.pinHighlights;
         };
 
         // Load stored prefs
@@ -587,12 +498,12 @@
         panel.addEventListener('transitionend', () => { const first = panel.querySelector('input,button'); if (first) first.focus(); });
 
         const saveAndApply = () => {
-            const prefs = { scrollSnap: !!optSnap.checked, animations: !!optAnim.checked, pinHighlights: !!optPin.checked };
+            const prefs = { scrollSnap: !!optSnap.checked, animations: !!optAnim.checked };
             try { localStorage.setItem(prefsKey, JSON.stringify(prefs)); } catch (e) {}
             applyPrefs(prefs);
         };
 
-        [optSnap, optAnim, optPin].forEach(el => { if (!el) return; el.addEventListener('change', saveAndApply); });
+        [optSnap, optAnim].forEach(el => { if (!el) return; el.addEventListener('change', saveAndApply); });
 
         // If animations are enabled, reveal each tab-content when it becomes intersecting
         const animObserver = new IntersectionObserver((entries) => {
@@ -608,52 +519,12 @@
 
         document.querySelectorAll('.tab-content').forEach(tc => animObserver.observe(tc));
         
-        // Pin / close controls for Highlights
-        const highlights = document.querySelector('.bullet-column');
-        const pinBtn = document.getElementById('pinHighlightsBtn');
-        const closeBtn = document.getElementById('closeHighlightsBtn');
-        const showBtn = document.getElementById('showHighlightsBtn');
-        const visKey = 'highlightsVisible';
-        const pinKey = 'highlightsPinned';
-
-        const setVisibility = (visible) => {
-            if (!highlights) return;
-            highlights.style.display = visible ? 'flex' : 'none';
-            showBtn.style.display = visible ? 'none' : 'block';
-            try { localStorage.setItem(visKey, visible ? '1' : '0'); } catch (e) {}
-        };
-
-        const setPinned = (pinned) => {
-            if (!highlights) return;
-            document.body.classList.toggle('pin-highlights', !!pinned);
-            try { localStorage.setItem(pinKey, pinned ? '1' : '0'); } catch (e) {}
-        };
-
-        if (pinBtn) pinBtn.addEventListener('click', () => {
-            const currently = localStorage.getItem(pinKey) === '1';
-            setPinned(!currently);
-        });
-        if (closeBtn) closeBtn.addEventListener('click', () => setVisibility(false));
-        if (showBtn) showBtn.addEventListener('click', () => setVisibility(true));
-
-        // Close panels with Escape
+        // Close options panel with Escape
         window.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                // close options if open
                 if (panel.style.display === 'block') { panel.style.display = 'none'; btn.setAttribute('aria-pressed', 'false'); }
-                // close highlights if not pinned
-                const pinnedNow = localStorage.getItem(pinKey) === '1';
-                if (!pinnedNow && highlights && highlights.style.display !== 'none') { setVisibility(false); }
             }
         });
-
-        // initialize from storage
-        try {
-            const pinned = localStorage.getItem(pinKey) === '1';
-            const visible = localStorage.getItem(visKey) !== '0';
-            setPinned(pinned);
-            setVisibility(visible);
-        } catch (e) {}
     })();
     </script>
 </body>
