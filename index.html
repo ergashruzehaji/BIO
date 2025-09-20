@@ -7,8 +7,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --panel-alpha: 0.90; /* adjust panel opacity for readability */
-            --overlay-dark: rgba(0,0,0,0.18);
+            --panel-alpha: 0.95; /* adjust panel opacity for readability */
+            --overlay-dark: rgba(0,0,0,0.28);
+        }
+
+        /* High-contrast overrides when body has .high-contrast */
+        body.high-contrast {
+            --panel-alpha: 1;
+            --overlay-dark: rgba(0,0,0,0.36);
         }
 
         /* Full-viewport background using Future.jpg */
@@ -18,11 +24,33 @@
         }
         body {
             font-family: 'Poppins', sans-serif;
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1.6;
             color: #222;
             background: url('./Future.jpg') no-repeat center center fixed;
             background-size: cover;
+        }
+
+        /* High-contrast toggle - fixed control in the top-right */
+        .contrast-toggle {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 9999;
+            background: rgba(0,0,0,0.6);
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            backdrop-filter: blur(6px);
+        }
+
+        .contrast-toggle[aria-pressed="true"] {
+            background: #fff;
+            color: #111;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.2);
         }
 
         /* Subtle fullscreen overlay to improve contrast over the background image */
@@ -117,6 +145,7 @@
     </style>
 </head>
 <body>
+    <button id="contrastToggle" class="contrast-toggle" aria-pressed="false">High contrast</button>
     <div class="page-container">
         <div class="header panel">
             <img src="https://via.placeholder.com/200x200/3498db/ffffff?text=Your+Photo" alt="Ergash Ruzehaji" class="profile-photo">
@@ -195,6 +224,27 @@
         document.querySelector('.tab-btn[onclick*="' + tabId + '"]').classList.add('active');
         document.getElementById(tabId).classList.add('active');
     }
+
+    // Contrast toggle: toggles .high-contrast on body and persists choice
+    (function() {
+        const btn = document.getElementById('contrastToggle');
+        if (!btn) return;
+
+        const setContrast = isOn => {
+            document.body.classList.toggle('high-contrast', isOn);
+            btn.setAttribute('aria-pressed', String(!!isOn));
+            btn.textContent = isOn ? 'Normal contrast' : 'High contrast';
+            try { localStorage.setItem('highContrast', isOn ? '1' : '0'); } catch (e) {}
+        };
+
+        btn.addEventListener('click', () => setContrast(btn.getAttribute('aria-pressed') !== 'true'));
+
+        // Initialize from localStorage
+        try {
+            const stored = localStorage.getItem('highContrast');
+            setContrast(stored === '1');
+        } catch (e) { /* ignore */ }
+    })();
     </script>
 </body>
 </html>
