@@ -119,7 +119,7 @@
         .left-nav button {
             text-align: left;
             background: transparent;
-            color: #fff;
+            color: #111; /* make left nav labels black and readable */
             border: none;
             padding: 10px 12px;
             border-radius: 8px;
@@ -187,9 +187,11 @@
         border-left: 6px solid #2c3e50;
         box-shadow: 0 6px 18px rgba(0,0,0,0.08);
         font-size: 15px;
+        text-align: center; /* center bullet information */
     }
     .bullet-card h3 { margin: 0 0 8px 0; color: #2c3e50; }
-    .bullet-card ul { margin: 0; padding-left: 20px; }
+    /* keep lists readable by centering the list container but left-aligning list items */
+    .bullet-card ul { margin: 0 auto; padding-left: 20px; display: inline-block; text-align: left; }
     .bullet-card li { margin-bottom: 8px; }
     .bullet-card.active { outline: 3px solid rgba(52,152,219,0.18); }
 
@@ -222,14 +224,7 @@
     <a class="skip-link" href="#about">Skip to content</a>
     <button id="contrastToggle" class="contrast-toggle" aria-pressed="false">High contrast</button>
     <div class="page-container">
-        <div class="top-tabs panel" role="tablist" aria-label="Top sections">
-            <button data-target="about" class="active">About Me</button>
-            <button data-target="education">Education</button>
-            <button data-target="experience">Experience</button>
-            <button data-target="skills">Skills</button>
-            <button data-target="projects">Projects</button>
-            <button data-target="fun">Fun</button>
-        </div>
+        <!-- top-tabs removed per user request -->
         <nav class="left-nav panel" role="navigation" aria-label="Main sections">
             <button role="button" data-target="about" class="active" aria-current="true">About Me</button>
             <button role="button" data-target="education">Education</button>
@@ -342,12 +337,12 @@
     <script>
     // Scrollspy + smooth scroll for navigation (left nav + top tabs)
     (function() {
-        const nav = document.querySelector('.left-nav');
-        const topTabsContainer = document.querySelector('.top-tabs');
-        if (!nav || !topTabsContainer) return;
+    const nav = document.querySelector('.left-nav');
+    const topTabsContainer = document.querySelector('.top-tabs');
+    if (!nav) return;
 
-        const buttons = Array.from(nav.querySelectorAll('button[data-target]'));
-        const topTabs = Array.from(topTabsContainer.querySelectorAll('button[data-target]'));
+    const buttons = Array.from(nav.querySelectorAll('button[data-target]'));
+    const topTabs = topTabsContainer ? Array.from(topTabsContainer.querySelectorAll('button[data-target]')) : [];
         const sections = buttons.map(b => document.getElementById(b.dataset.target)).filter(Boolean);
 
         // Centralized activation so left-nav, top-tabs, and bullets stay in sync
