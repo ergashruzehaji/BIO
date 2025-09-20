@@ -5,32 +5,44 @@
     <title>My BIO</title>
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
     <style>
+        /* Full-page background using Future.jpg */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
         body {
             font-family: 'Poppins', sans-serif;
             font-size: 14px;
             line-height: 1.6;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 20px;
-            background: url('./cityscape.jpg') no-repeat center center fixed;
+            background: url('./Future.jpg') no-repeat center center fixed;
             background-size: cover;
             color: #333;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
+
+        /* translucent content panel so background shows through */
         .content {
-            background: #fff;
+            background: rgba(255,255,255,0.88);
             border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 30px rgba(0,0,0,0.15);
             margin-bottom: 30px;
-            padding: 20px;
+            padding: 24px;
+            min-height: 60vh;
         }
+
         .tabs {
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
             justify-content: center;
+            flex-wrap: wrap;
         }
         .tab-btn {
-            background: #3498db;
+            background: rgba(52,152,219,0.95);
             color: #fff;
             border: none;
             padding: 10px 20px;
@@ -61,7 +73,7 @@
             margin-bottom: 20px;
         }
         .contact-info {
-            background: #ecf0f1;
+            background: rgba(236,240,241,0.95);
             padding: 20px;
             border-radius: 8px;
             text-align: center;
@@ -80,12 +92,46 @@
         li {
             margin-bottom: 8px;
         }
+        /* Hide the small inline profile images so the background image fills the page
+           If you'd rather keep section images, remove or change this rule. */
         .profile-img {
-            display: block;
-            margin: 0 auto 20px auto;
+            display: none;
             max-width: 350px;
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        }
+
+        /* Projects styling */
+        .projects-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .project {
+            background: rgba(255,255,255,0.96);
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .project h3 {
+            margin: 0 0 8px 0;
+            font-size: 1.05em;
+            color: #2c3e50;
+        }
+        .project p {
+            margin: 0;
+            font-size: 0.95em;
+            color: #444;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            body { padding: 14px; }
+            .content { padding: 16px; }
+            .tab-btn { padding: 8px 12px; font-size: 0.95em; }
         }
     </style>
 </head>
@@ -97,22 +143,25 @@
             <button class="tab-btn" onclick="showTab('experience')">Experience</button>
             <button class="tab-btn" onclick="showTab('skills')">Skills & Interests</button>
             <button class="tab-btn" onclick="showTab('fun')">Fun Facts</button>
+            <button class="tab-btn" onclick="showTab('projects')">Projects</button>
         </div>
+
         <div id="about" class="tab-content active">
             <div class="section">
                 <img src="Future.jpg" alt="Future" class="profile-img">
                 <h2>About Me</h2>
                 <p>
-                    I am an Asian American who tries to learn something new everyday, regardless of use. I try my best to be as independent as possible, but then realize that I am only human. I do ask for help when needed.
+                    I am an Asian American who tries to learn something new everyday, regardless of use. I try my best to be as independent as possible, but then realize that I am only human. I d[...] 
                 </p>
                 <p>
-                   My passions include exercising, reading, and exploring anything on land, air, or sea. Whether it's hiking urban parks, flying drones, or learning to sail, I embrace new adventures.
+                   My passions include exercising, reading, and exploring anything on land, air, or sea. Whether it's hiking urban parks, flying drones, or learning to sail, I embrace new adventu[...] 
                 </p>
                 <p>
                    Personality-wise, I'm a lifelong learner, curious, and always striving to improve myself and my community. I love meeting people from diverse backgrounds and exchanging ideas.
                 </p>
             </div>
         </div>
+
         <div id="education" class="tab-content">
             <div class="section">
                 <img src="Future.jpg" alt="Future" class="profile-img">
@@ -124,6 +173,7 @@
                 </ul>
             </div>
         </div>
+
         <div id="experience" class="tab-content">
             <div class="section">
                 <img src="Future.jpg" alt="Future" class="profile-img">
@@ -145,6 +195,7 @@
                 </ul>
             </div>
         </div>
+
         <div id="skills" class="tab-content">
             <div class="section">
                 <img src="Future.jpg" alt="Future" class="profile-img">
@@ -157,6 +208,7 @@
                 </ul>
             </div>
         </div>
+
         <div id="fun" class="tab-content">
             <div class="section">
                 <img src="Future.jpg" alt="Future" class="profile-img">
@@ -171,7 +223,32 @@
                 </ul>
             </div>
         </div>
+
+        <div id="projects" class="tab-content">
+            <div class="section">
+                <h2>Projects</h2>
+                <ul class="projects-list">
+                    <li class="project">
+                        <h3>Personal Website</h3>
+                        <p>A simple responsive personal site showcasing bio, projects, and contact info. Built with HTML/CSS and lightweight JS.</p>
+                    </li>
+                    <li class="project">
+                        <h3>Custom Drone Build</h3>
+                        <p>Designed and assembled a quadcopter from scratch: frame, flight controller, custom tuning, and camera integration.</p>
+                    </li>
+                    <li class="project">
+                        <h3>Community Event Platform</h3>
+                        <p>Organized and built tools to help local vendors register and manage booths for the Buffalo Asian Heritage Festival.</p>
+                    </li>
+                    <li class="project">
+                        <h3>Data Science Coursework</h3>
+                        <p>Completed Coursera projects analyzing datasets using Python, pandas, and visualization libraries.</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
+
     <div class="contact-info">
         <h2>Get In Touch</h2>
         <p>
@@ -181,12 +258,19 @@
             <a href="tel:+1234567890">Phone</a>
         </p>
     </div>
+
     <script>
         function showTab(tabId) {
+            // toggle active classes for tabs and contents
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelector('.tab-btn[onclick*="' + tabId + '"]').classList.add('active');
-            document.getElementById(tabId).classList.add('active');
+            const btn = Array.from(document.querySelectorAll('.tab-btn'))
+                        .find(b => b.getAttribute('onclick') && b.getAttribute('onclick').includes(tabId));
+            if (btn) btn.classList.add('active');
+            const el = document.getElementById(tabId);
+            if (el) el.classList.add('active');
+            // scroll to top of content to keep UI pleasant when switching tabs
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     </script>
 </body>
