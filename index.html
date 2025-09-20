@@ -170,25 +170,32 @@
         .content-inner {
             max-width: 720px;
             margin: 0 auto;
+            position: relative; /* used for absolutely-positioned panels */
+            min-height: calc(100vh - 160px);
         }
     /* Make each tab content occupy the viewport and center its inner content.
        Only the active tab is visible (embedded in the page). */
+    /* Panels are layered on top of each other for a smooth cross-fade */
     .tab-content {
-        display: none;
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 28px 12px;
+        box-sizing: border-box;
         opacity: 0;
         transform: translateY(8px);
-        transition: opacity 260ms ease, transform 260ms ease;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 320ms ease, transform 320ms ease, visibility 0s linear 320ms;
     }
     .tab-content.active {
-        display: flex;
-        align-items: center; /* vertical centering */
-        justify-content: center; /* horizontal centering */
-        min-height: calc(100vh - 120px); /* account for padding/top controls */
-        box-sizing: border-box;
-        padding: 28px 12px;
-        margin-bottom: 20px;
         opacity: 1;
         transform: none;
+        visibility: visible;
+        pointer-events: auto;
+        transition-delay: 0s;
     }
     .tab-content > .section { width: 100%; max-width: 720px; }
 
@@ -243,11 +250,16 @@
         @media (max-width: 900px) {
             .page-container { grid-template-columns: 1fr; padding: 20px 12px; }
             .left-nav { position: relative; top: 0; height: auto; flex-direction: row; overflow-x: auto; }
-            .left-nav button { white-space: nowrap; }
+            .left-nav button { white-space: nowrap; padding: 14px 16px; font-size: 1.05rem; }
             .bullets-toggle { display: inline-block; }
             .section-grid { grid-template-columns: 1fr; }
             /* On smaller screens revert bullet column to flow within content */
             .bullet-column { position: static; transform: none; left: auto; top: auto; width: auto; max-width: 720px; margin: 18px auto 0 auto; max-height: none; overflow: visible; z-index: 1; box-shadow: none; background: rgba(255,255,255,var(--panel-alpha)); }
+            /* Hide floating show highlights button on small screens */
+            #showHighlightsBtn { display: none !important; }
+            /* Panels revert to normal flow on small screens (no overlay) */
+            .content-inner { min-height: auto; position: static; }
+            .tab-content { position: relative; visibility: visible; opacity: 1; transform: none; pointer-events: auto; transition: none; display: block; }
         }
 
         /* Scroll snap support when enabled via body.scroll-snap */
@@ -571,6 +583,9 @@
             btn.setAttribute('aria-pressed', String(!showing));
         });
 
+        // Focus management: focus first input when panel opens
+        panel.addEventListener('transitionend', () => { const first = panel.querySelector('input,button'); if (first) first.focus(); });
+
         const saveAndApply = () => {
             const prefs = { scrollSnap: !!optSnap.checked, animations: !!optAnim.checked, pinHighlights: !!optPin.checked };
             try { localStorage.setItem(prefsKey, JSON.stringify(prefs)); } catch (e) {}
@@ -620,6 +635,17 @@
         });
         if (closeBtn) closeBtn.addEventListener('click', () => setVisibility(false));
         if (showBtn) showBtn.addEventListener('click', () => setVisibility(true));
+
+        // Close panels with Escape
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                // close options if open
+                if (panel.style.display === 'block') { panel.style.display = 'none'; btn.setAttribute('aria-pressed', 'false'); }
+                // close highlights if not pinned
+                const pinnedNow = localStorage.getItem(pinKey) === '1';
+                if (!pinnedNow && highlights && highlights.style.display !== 'none') { setVisibility(false); }
+            }
+        });
 
         // initialize from storage
         try {
