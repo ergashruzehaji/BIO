@@ -175,6 +175,9 @@
        Only the active tab is visible (embedded in the page). */
     .tab-content {
         display: none;
+        opacity: 0;
+        transform: translateY(8px);
+        transition: opacity 260ms ease, transform 260ms ease;
     }
     .tab-content.active {
         display: flex;
@@ -184,6 +187,8 @@
         box-sizing: border-box;
         padding: 28px 12px;
         margin-bottom: 20px;
+        opacity: 1;
+        transform: none;
     }
     .tab-content > .section { width: 100%; max-width: 720px; }
 
@@ -280,13 +285,13 @@
     <button id="contrastToggle" class="contrast-toggle" aria-pressed="false">High contrast</button>
     <div class="page-container">
         <!-- top-tabs removed per user request -->
-        <nav class="left-nav panel" role="navigation" aria-label="Main sections">
-            <button role="button" data-target="about" class="active" aria-current="true">About Me</button>
-            <button role="button" data-target="education">Education</button>
-            <button role="button" data-target="experience">Experience</button>
-            <button role="button" data-target="skills">Skills & Interests</button>
-            <button role="button" data-target="projects">Projects</button>
-            <button role="button" data-target="fun">Fun Facts</button>
+        <nav class="left-nav panel" role="tablist" aria-label="Main sections">
+            <button role="tab" data-target="about" class="active" aria-current="true" aria-selected="true" aria-controls="about">About Me</button>
+            <button role="tab" data-target="education" aria-selected="false" aria-controls="education">Education</button>
+            <button role="tab" data-target="experience" aria-selected="false" aria-controls="experience">Experience</button>
+            <button role="tab" data-target="skills" aria-selected="false" aria-controls="skills">Skills & Interests</button>
+            <button role="tab" data-target="projects" aria-selected="false" aria-controls="projects">Projects</button>
+            <button role="tab" data-target="fun" aria-selected="false" aria-controls="fun">Fun Facts</button>
         </nav>
 
         <div class="header panel">
@@ -298,7 +303,7 @@
         </div>
         <main class="content-area">
             <div class="content-inner">
-            <div id="about" class="tab-content panel">
+            <div id="about" class="tab-content panel" role="tabpanel" aria-hidden="false">
                 <div class="section">
                     <h2>About Me</h2>
                     <p>I am an Asian American who tries to learn something new everyday, regardless of use. I try my best to be as independent as possible but then realize that I am only human. I do ask for assistance when I have reached my limit(s).</p>
@@ -306,32 +311,32 @@
                 </div>
             </div>
             </div>
-            <div id="education" class="tab-content panel">
+            <div id="education" class="tab-content panel" role="tabpanel" aria-hidden="true">
                 <div class="section">
                     <h2>Education</h2>
                     <p>Academic background and certifications.</p>
                 </div>
             </div>
-            <div id="experience" class="tab-content panel">
+            <div id="experience" class="tab-content panel" role="tabpanel" aria-hidden="true">
                 <div class="section">
                     <h2>Experience</h2>
                     <p>Professional experience managing properties and tenant relations.</p>
                 </div>
             </div>
-            <div id="skills" class="tab-content panel">
+            <div id="skills" class="tab-content panel" role="tabpanel" aria-hidden="true">
                 <div class="section">
                     <h2>Skills & Interests</h2>
                     <p>Hands-on skills and personal interests.</p>
                 </div>
             </div>
-            <div id="fun" class="tab-content panel">
+            <div id="fun" class="tab-content panel" role="tabpanel" aria-hidden="true">
                 <div class="section">
                     <h2>Fun Facts</h2>
                     <p>Little-known facts and personal tidbits.</p>
                 </div>
             </div>
 
-            <div id="projects" class="tab-content panel">
+            <div id="projects" class="tab-content panel" role="tabpanel" aria-hidden="true">
                 <div class="section">
                     <h2>Projects</h2>
                     <p>Selected projects and portfolio items.</p>
@@ -411,20 +416,33 @@
     const topTabs = topTabsContainer ? Array.from(topTabsContainer.querySelectorAll('button[data-target]')) : [];
         const sections = buttons.map(b => document.getElementById(b.dataset.target)).filter(Boolean);
 
-        // Centralized activation so left-nav, top-tabs, and bullets stay in sync
+        // Centralized activation so left-nav, top-tabs, and bullets stay in sync (ARIA-aware)
         const activateSection = (id, { source = 'manual' } = {}) => {
             const el = document.getElementById(id);
             if (!el) return;
 
-            // Show only the active tab content (embedded in page)
-            document.querySelectorAll('.tab-content').forEach(tc => tc.classList.toggle('active', tc.id === id));
+            // Show only the active tab content (embedded in page) and update aria-hidden
+            document.querySelectorAll('.tab-content').forEach(tc => {
+                const isActive = tc.id === id;
+                tc.classList.toggle('active', isActive);
+                tc.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+            });
 
-            // update left nav
-            buttons.forEach(b => b.classList.toggle('active', b.dataset.target === id));
-            buttons.forEach(b => b.toggleAttribute('aria-current', b.dataset.target === id));
+            // update left nav (tabs)
+            buttons.forEach(b => {
+                const selected = b.dataset.target === id;
+                b.classList.toggle('active', selected);
+                b.toggleAttribute('aria-current', selected);
+                b.setAttribute('aria-selected', selected ? 'true' : 'false');
+                b.setAttribute('tabindex', selected ? '0' : '-1');
+            });
 
             // update top tabs (if present)
-            topTabs.forEach(t => t.classList.toggle('active', t.dataset.target === id));
+            topTabs.forEach(t => {
+                const sel = t.dataset.target === id;
+                t.classList.toggle('active', sel);
+                t.setAttribute('aria-selected', sel ? 'true' : 'false');
+            });
 
             // update bullets: highlight the matching card
             document.querySelectorAll('.bullet-card').forEach(c => c.classList.remove('active'));
@@ -432,12 +450,15 @@
             if (card) card.classList.add('active');
         };
 
-        // Wire left-nav buttons
+        // Wire left-nav buttons (ARIA tab behavior)
         buttons.forEach((btn, idx) => {
-            btn.addEventListener('click', (e) => { e.preventDefault(); activateSection(btn.dataset.target, { scroll: true, source: 'nav' }); btn.focus(); });
+            // ensure proper tabindex
+            btn.setAttribute('tabindex', btn.classList.contains('active') ? '0' : '-1');
+
+            btn.addEventListener('click', (e) => { e.preventDefault(); activateSection(btn.dataset.target, { source: 'nav' }); btn.focus(); });
             btn.addEventListener('keydown', (e) => {
                 const key = e.key;
-                if (key === 'Enter' || key === ' ') { e.preventDefault(); activateSection(btn.dataset.target, { scroll: true }); }
+                if (key === 'Enter' || key === ' ') { e.preventDefault(); activateSection(btn.dataset.target, { source: 'nav' }); }
                 else if (key === 'ArrowDown') { e.preventDefault(); (buttons[idx + 1] || buttons[0]).focus(); }
                 else if (key === 'ArrowUp') { e.preventDefault(); (buttons[idx - 1] || buttons[buttons.length - 1]).focus(); }
                 else if (key === 'Home') { e.preventDefault(); buttons[0].focus(); }
@@ -451,12 +472,12 @@
             if (initial) activateSection(initial.dataset.target, { source: 'init' });
         });
 
-        // Wire top-tabs buttons (mouse + keyboard)
+        // Wire top-tabs buttons (mouse + keyboard) - if top tabs are present
         topTabs.forEach((t, idx) => {
-            t.addEventListener('click', (e) => { e.preventDefault(); activateSection(t.dataset.target, { scroll: true, source: 'top' }); t.focus(); });
+            t.addEventListener('click', (e) => { e.preventDefault(); activateSection(t.dataset.target, { source: 'top' }); t.focus(); });
             t.addEventListener('keydown', (e) => {
                 const key = e.key;
-                if (key === 'Enter' || key === ' ') { e.preventDefault(); activateSection(t.dataset.target, { scroll: true }); }
+                if (key === 'Enter' || key === ' ') { e.preventDefault(); activateSection(t.dataset.target, { source: 'top' }); }
                 else if (key === 'ArrowRight') { e.preventDefault(); (topTabs[idx + 1] || topTabs[0]).focus(); }
                 else if (key === 'ArrowLeft') { e.preventDefault(); (topTabs[idx - 1] || topTabs[topTabs.length - 1]).focus(); }
                 else if (key === 'Home') { e.preventDefault(); topTabs[0].focus(); }
