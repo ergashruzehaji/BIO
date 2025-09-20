@@ -160,14 +160,24 @@
         }
         .top-tabs button.active { background: #3498db; color: #fff; }
 
-    /* Content column uses panels per section and is scrollable with visible sections */
+        /* Content column uses panels per section and is scrollable with visible sections */
         .content-area { display: block; }
         /* Center the main content between left nav and right bullets */
         .content-inner {
             max-width: 720px;
             margin: 0 auto;
         }
-    .tab-content { display: block; margin-bottom: 20px; }
+    /* Make each tab content occupy the viewport and center its inner content */
+    .tab-content {
+        display: flex;
+        align-items: center; /* vertical centering */
+        justify-content: center; /* horizontal centering */
+        min-height: calc(100vh - 120px); /* account for padding/top controls */
+        box-sizing: border-box;
+        padding: 28px 12px;
+        margin-bottom: 20px;
+    }
+    .tab-content > .section { width: 100%; max-width: 720px; }
 
     /* Right-side bullets column (separate from tabs) */
     .bullet-column {
@@ -364,7 +374,7 @@
         const activateSection = (id, { scroll = true, source = 'manual' } = {}) => {
             const el = document.getElementById(id);
             if (!el) return;
-            if (scroll) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (scroll) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
             // update left nav
             buttons.forEach(b => b.classList.toggle('active', b.dataset.target === id));
@@ -413,7 +423,8 @@
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 const id = entry.target.id;
-                if (entry.isIntersecting && entry.intersectionRatio > 0.35) {
+                // consider a section active when its center is visible
+                if (entry.isIntersecting && entry.intersectionRatio > 0.25) {
                     activateSection(id, { scroll: false, source: 'observer' });
                 }
             });
