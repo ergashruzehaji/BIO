@@ -333,103 +333,76 @@
         </div>
     </div>
     <script>
-    // Scrollspy + smooth scroll for left-nav
+    // Scrollspy + smooth scroll for navigation (left nav + top tabs)
     (function() {
         const nav = document.querySelector('.left-nav');
-        if (!nav) return;
+        const topTabsContainer = document.querySelector('.top-tabs');
+        if (!nav || !topTabsContainer) return;
 
-    const buttons = Array.from(nav.querySelectorAll('button[data-target]'));
-    const topTabs = Array.from(document.querySelectorAll('.top-tabs button[data-target]'));
+        const buttons = Array.from(nav.querySelectorAll('button[data-target]'));
+        const topTabs = Array.from(topTabsContainer.querySelectorAll('button[data-target]'));
         const sections = buttons.map(b => document.getElementById(b.dataset.target)).filter(Boolean);
 
-        // Smooth scroll on click + keyboard support will activate the same behavior
+        // Centralized activation so left-nav, top-tabs, and bullets stay in sync
+        const activateSection = (id, { scroll = true, source = 'manual' } = {}) => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            if (scroll) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // update left nav
+            buttons.forEach(b => b.classList.toggle('active', b.dataset.target === id));
+            buttons.forEach(b => b.toggleAttribute('aria-current', b.dataset.target === id));
+
+            // update top tabs
+            topTabs.forEach(t => t.classList.toggle('active', t.dataset.target === id));
+
+            // update bullets
+            document.querySelectorAll('.bullet-card').forEach(c => c.classList.remove('active'));
+            const card = document.getElementById('bullet-' + id);
+            if (card) card.classList.add('active');
+        };
+
+        // Wire left-nav buttons
         buttons.forEach((btn, idx) => {
-            const activate = (source = 'nav') => {
-                const id = btn.dataset.target;
-                const el = document.getElementById(id);
-                if (!el) return;
-                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                // set active immediately for snappy feedback
-                buttons.forEach(b => b.classList.remove('active'));
-                buttons.forEach(b => b.removeAttribute('aria-current'));
-                topTabs.forEach(t => t.classList.remove('active'));
-                btn.classList.add('active');
-                btn.setAttribute('aria-current', 'true');
-                const top = topTabs.find(t => t.dataset.target === id);
-                if (top) top.classList.add('active');
-                // update bullet card
-                document.querySelectorAll('.bullet-card').forEach(c => c.classList.remove('active'));
-                const card = document.getElementById('bullet-' + id);
-                if (card) card.classList.add('active');
-                btn.focus();
-            };
-
-            btn.addEventListener('click', activate);
-
-            // Connect top tabs click behavior
-            topTabs.forEach(t => {
-                if (t.dataset.target === btn.dataset.target) return;
-            });
-
+            btn.addEventListener('click', (e) => { e.preventDefault(); activateSection(btn.dataset.target, { scroll: true, source: 'nav' }); btn.focus(); });
             btn.addEventListener('keydown', (e) => {
                 const key = e.key;
-                if (key === 'Enter' || key === ' ') {
-                    e.preventDefault();
-                    activate();
-                } else if (key === 'ArrowDown') {
-                    e.preventDefault();
-                    const next = buttons[idx + 1] || buttons[0];
-                    next.focus();
-                } else if (key === 'ArrowUp') {
-                    e.preventDefault();
-                    const prev = buttons[idx - 1] || buttons[buttons.length - 1];
-                    prev.focus();
-                } else if (key === 'Home') {
-                    e.preventDefault();
-                    buttons[0].focus();
-                } else if (key === 'End') {
-                    e.preventDefault();
-                    buttons[buttons.length - 1].focus();
-                }
+                if (key === 'Enter' || key === ' ') { e.preventDefault(); activateSection(btn.dataset.target, { scroll: true }); }
+                else if (key === 'ArrowDown') { e.preventDefault(); (buttons[idx + 1] || buttons[0]).focus(); }
+                else if (key === 'ArrowUp') { e.preventDefault(); (buttons[idx - 1] || buttons[buttons.length - 1]).focus(); }
+                else if (key === 'Home') { e.preventDefault(); buttons[0].focus(); }
+                else if (key === 'End') { e.preventDefault(); buttons[buttons.length - 1].focus(); }
             });
         });
 
-        // IntersectionObserver to highlight the nav item when section is mostly visible
+        // Wire top-tabs buttons (mouse + keyboard)
+        topTabs.forEach((t, idx) => {
+            t.addEventListener('click', (e) => { e.preventDefault(); activateSection(t.dataset.target, { scroll: true, source: 'top' }); t.focus(); });
+            t.addEventListener('keydown', (e) => {
+                const key = e.key;
+                if (key === 'Enter' || key === ' ') { e.preventDefault(); activateSection(t.dataset.target, { scroll: true }); }
+                else if (key === 'ArrowRight') { e.preventDefault(); (topTabs[idx + 1] || topTabs[0]).focus(); }
+                else if (key === 'ArrowLeft') { e.preventDefault(); (topTabs[idx - 1] || topTabs[topTabs.length - 1]).focus(); }
+                else if (key === 'Home') { e.preventDefault(); topTabs[0].focus(); }
+                else if (key === 'End') { e.preventDefault(); topTabs[topTabs.length - 1].focus(); }
+            });
+        });
+
+        // Map bullets for quick lookup
+        const bulletMap = new Map();
+        sections.forEach(s => { const card = document.getElementById('bullet-' + s.id); if (card) bulletMap.set(s.id, card); });
+
+        // IntersectionObserver to update active states when scrolling
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 const id = entry.target.id;
-                const btn = nav.querySelector('button[data-target="' + id + '"]');
-                const card = bulletMap.get(id);
-                if (!btn) return;
-                if (entry.isIntersecting && entry.intersectionRatio > 0.4) {
-                    buttons.forEach(b => b.classList.remove('active'));
-                    buttons.forEach(b => b.removeAttribute('aria-current'));
-                    btn.classList.add('active');
-                    btn.setAttribute('aria-current', 'true');
-                    // highlight corresponding bullet card
-                    if (card) {
-                        document.querySelectorAll('.bullet-card').forEach(c => c.classList.remove('active'));
-                        card.classList.add('active');
-                        // also highlight top tabs
-                        topTabs.forEach(t => t.classList.remove('active'));
-                        const top = topTabs.find(t => t.dataset.target === id);
-                        if (top) top.classList.add('active');
-                    }
+                if (entry.isIntersecting && entry.intersectionRatio > 0.35) {
+                    activateSection(id, { scroll: false, source: 'observer' });
                 }
             });
-        }, { threshold: [0.05, 0.25, 0.4, 0.6] });
+        }, { threshold: [0.05, 0.25, 0.35, 0.6] });
 
         sections.forEach(s => observer.observe(s));
-
-        // Also link sections to bullet cards for highlighting
-        const bulletMap = new Map();
-        sections.forEach(s => {
-            const card = document.getElementById('bullet-' + s.id);
-            if (card) bulletMap.set(s.id, card);
-        });
-
-        // Update observer to also toggle bullet-card active state
-        const originalCallback = observer.callback;
     })();
 
     // Contrast toggle: toggles .high-contrast on body and persists choice
