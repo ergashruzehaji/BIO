@@ -69,16 +69,12 @@
 
         /* Three-column layout: left nav (moved to right visually) + content + right bullets column (removed) */
         .page-container {
-            max-width: 1300px;
+            max-width: 980px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 28px 18px;
             box-sizing: border-box;
             min-height: 100vh;
-            display: grid;
-            /* layout: content centered, nav sits on right column (220px) */
-            grid-template-columns: 1fr 220px;
-            gap: 18px;
-            align-items: start;
+            display: block; /* single-column flow */
             position: relative;
             z-index: 1; /* ensure content sits above the body overlay */
         }
@@ -109,20 +105,18 @@
 
         h1 { margin: 0; }
 
-        /* Right-side vertical nav (keeps .left-nav class for compatibility) */
+        /* Inline vertical nav now sits above content in normal flow */
         .left-nav {
-            grid-column: 2 / 3;
-            align-self: center; /* vertically center in the grid cell */
-            position: sticky;
-            top: 50%;
-            transform: translateY(-50%);
-            height: auto;
-            padding: 12px;
-            border-radius: 12px;
+            position: relative;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             gap: 8px;
-            justify-content: center;
+            padding: 8px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            overflow-x: auto;
+            align-items: center;
+            background: rgba(255,255,255,calc(var(--panel-alpha) - 0.02));
         }
         .left-nav button {
             text-align: left;
@@ -168,7 +162,7 @@
         .top-tabs button.active { background: #3498db; color: #fff; }
 
         /* Content column uses panels per section and is scrollable with visible sections */
-    .content-area { display: block; grid-column: 1 / 2; }
+    .content-area { display: block; }
         /* Center the main content between left nav and right bullets */
         .content-inner {
             max-width: 720px;
@@ -239,7 +233,7 @@
             margin-bottom: 16px;
         }
 
-    .contact-info { text-align: center; grid-column: 1 / 2; }
+    .contact-info { text-align: center; }
         .contact-info a { color: #3498db; text-decoration: none; margin: 0 8px; }
 
         ul { padding-left: 20px; }
