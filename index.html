@@ -220,8 +220,7 @@
             .left-nav button { white-space: nowrap; padding: 14px 16px; font-size: 1.05rem; }
             .bullets-toggle { display: inline-block; }
             .section-grid { grid-template-columns: 1fr; }
-            /* On smaller screens revert bullet column to flow within content */
-            .bullet-column { position: static; transform: none; left: auto; top: auto; width: auto; max-width: 720px; margin: 18px auto 0 auto; max-height: none; overflow: visible; z-index: 1; box-shadow: none; background: rgba(255,255,255,var(--panel-alpha)); }
+            /* On smaller screens - no right-side column */
             /* Hide floating show highlights button on small screens (removed) */
             /* Panels revert to normal flow on small screens (no overlay) */
             .content-inner { min-height: auto; position: static; }
@@ -283,6 +282,13 @@
                     <h2>About Me</h2>
                     <p>I am an Asian American who tries to learn something new everyday, regardless of use. I try my best to be as independent as possible but then realize that I am only human. I do ask for assistance when I have reached my limit(s).</p>
                     <p>I am into exercising, reading, and exploring anything on land, air or sea.</p>
+                    <div class="highlights panel" style="margin-top:18px;max-width:600px;margin-left:auto;margin-right:auto;">
+                        <h3 style="margin:0 0 8px 0;color:#2c3e50;">Highlights</h3>
+                        <ul>
+                            <li>Curious learner</li>
+                            <li>Enjoys exercise and reading</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             </div>
@@ -290,24 +296,48 @@
                 <div class="section">
                     <h2>Education</h2>
                     <p>Academic background and certifications.</p>
+                    <div class="highlights panel" style="margin-top:18px;max-width:600px;margin-left:auto;margin-right:auto;">
+                        <h3 style="margin:0 0 8px 0;color:#2c3e50;">Highlights</h3>
+                        <ul>
+                            <li>Chem, BA and Psych, BS — UB at Amherst (2007)</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div id="experience" class="tab-content panel" role="tabpanel" aria-hidden="true">
                 <div class="section">
                     <h2>Experience</h2>
                     <p>Professional experience managing properties and tenant relations.</p>
+                    <div class="highlights panel" style="margin-top:18px;max-width:600px;margin-left:auto;margin-right:auto;">
+                        <h3 style="margin:0 0 8px 0;color:#2c3e50;">Highlights</h3>
+                        <ul>
+                            <li>Property Manager — Independent (30 years)</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div id="skills" class="tab-content panel" role="tabpanel" aria-hidden="true">
                 <div class="section">
                     <h2>Skills & Interests</h2>
                     <p>Hands-on skills and personal interests.</p>
+                    <div class="highlights panel" style="margin-top:18px;max-width:600px;margin-left:auto;margin-right:auto;">
+                        <h3 style="margin:0 0 8px 0;color:#2c3e50;">Highlights</h3>
+                        <ul>
+                            <li>Hands-on building techniques</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div id="fun" class="tab-content panel" role="tabpanel" aria-hidden="true">
                 <div class="section">
                     <h2>Fun Facts</h2>
                     <p>Little-known facts and personal tidbits.</p>
+                    <div class="highlights panel" style="margin-top:18px;max-width:600px;margin-left:auto;margin-right:auto;">
+                        <h3 style="margin:0 0 8px 0;color:#2c3e50;">Highlights</h3>
+                        <ul>
+                            <li>Speaks multiple languages</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
@@ -315,6 +345,12 @@
                 <div class="section">
                     <h2>Projects</h2>
                     <p>Selected projects and portfolio items.</p>
+                    <div class="highlights panel" style="margin-top:18px;max-width:600px;margin-left:auto;margin-right:auto;">
+                        <h3 style="margin:0 0 8px 0;color:#2c3e50;">Highlights</h3>
+                        <ul>
+                            <li>Project placeholders — add real projects</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
 
@@ -411,10 +447,7 @@
             });
         });
 
-        // No intersection-based auto-activation: activation happens only via nav clicks
-        // Map bullets for quick lookup (kept for bullets highlighting)
-        const bulletMap = new Map();
-        sections.forEach(s => { const card = document.getElementById('bullet-' + s.id); if (card) bulletMap.set(s.id, card); });
+    // No intersection-based auto-activation: activation happens only via nav clicks
     })();
 
     // Contrast toggle: toggles .high-contrast on body and persists choice
