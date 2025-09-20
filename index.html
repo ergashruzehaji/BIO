@@ -63,15 +63,15 @@
             z-index: 0;
         }
 
-        /* Two-column layout: left sticky nav + content column */
+        /* Three-column layout: left nav + content + right bullets column */
         .page-container {
-            max-width: 1100px;
+            max-width: 1300px;
             margin: 0 auto;
             padding: 40px 20px;
             box-sizing: border-box;
             min-height: 100vh;
             display: grid;
-            grid-template-columns: 220px 1fr;
+            grid-template-columns: 220px 1fr 320px;
             gap: 24px;
             align-items: start;
             position: relative;
@@ -138,59 +138,30 @@
     .content-area { display: block; }
     .tab-content { display: block; margin-bottom: 20px; }
 
-    /* Section grid: main text left, bullets panel right */
-    .section-grid {
-        display: grid;
-        grid-template-columns: 1fr 280px;
-        gap: 18px;
-        align-items: start;
+    /* Right-side bullets column (separate from tabs) */
+    .bullet-column {
+        position: sticky;
+        top: 32px;
+        height: calc(100vh - 64px);
+        overflow: auto;
+        padding: 12px;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
     }
-    .bullets-panel {
-        background: rgba(255,255,255,calc(var(--panel-alpha) - 0.05));
-        padding: 14px 16px;
+    .bullet-card {
+        background: rgba(255,255,255,calc(var(--panel-alpha) - 0.02));
+        padding: 16px;
         border-radius: 10px;
-        border-left: 6px solid #3498db; /* colored left border */
+        border-left: 6px solid #2c3e50;
         box-shadow: 0 6px 18px rgba(0,0,0,0.08);
-        transform: translateY(8px);
-        opacity: 0;
-        transition: transform 420ms cubic-bezier(.2,.9,.3,1), opacity 420ms ease;
+        font-size: 15px;
     }
-    .bullets-panel.reveal {
-        transform: translateY(0);
-        opacity: 1;
-    }
-    .bullets-panel ul { list-style: none; margin: 0; padding: 0; }
-    .bullets-panel li {
-        position: relative;
-        padding-left: 28px;
-        margin-bottom: 10px;
-    }
-    .bullets-panel li::before {
-        content: '\2022';
-        position: absolute;
-        left: 6px;
-        top: 0;
-        color: #3498db;
-        font-weight: 700;
-        font-size: 1.25em;
-        line-height: 1;
-    }
-
-    /* Toggle for small screens: hide bullets by default and show toggle */
-    .bullets-toggle {
-        display: none;
-        background: transparent;
-        border: none;
-        font-weight: 600;
-        color: #2c3e50;
-        padding: 6px 8px;
-        border-radius: 6px;
-        cursor: pointer;
-        margin-bottom: 8px;
-    }
-    .bullets-panel.collapsed ul { display: none; }
-    .bullets-panel .bullets-toggle[aria-expanded="false"]::after { content: ' ▸'; }
-    .bullets-panel .bullets-toggle[aria-expanded="true"]::after { content: ' ▾'; }
+    .bullet-card h3 { margin: 0 0 8px 0; color: #2c3e50; }
+    .bullet-card ul { margin: 0; padding-left: 20px; }
+    .bullet-card li { margin-bottom: 8px; }
+    .bullet-card.active { outline: 3px solid rgba(52,152,219,0.18); }
 
         .section { margin-bottom: 24px; }
         .section h2 {
@@ -226,6 +197,7 @@
             <button role="button" data-target="education">Education</button>
             <button role="button" data-target="experience">Experience</button>
             <button role="button" data-target="skills">Skills & Interests</button>
+            <button role="button" data-target="projects">Projects</button>
             <button role="button" data-target="fun">Fun Facts</button>
         </nav>
 
@@ -245,64 +217,77 @@
                 </div>
             </div>
             <div id="education" class="tab-content panel">
-                <div class="section-grid">
-                    <div class="section">
-                        <h2>Education</h2>
-                        <p>Academic background and certifications.</p>
-                    </div>
-                    <aside class="bullets-panel" aria-label="Education highlights">
-                        <button class="bullets-toggle" aria-expanded="true">Highlights</button>
-                        <ul>
-                            <li><strong>Chem, BA and Psych, BS</strong> - UB at Amherst (2007)</li>
-                        </ul>
-                    </aside>
+                <div class="section">
+                    <h2>Education</h2>
+                    <p>Academic background and certifications.</p>
                 </div>
             </div>
             <div id="experience" class="tab-content panel">
-                <div class="section-grid">
-                    <div class="section">
-                        <h2>Experience</h2>
-                        <p>Professional experience managing properties and tenant relations.</p>
-                    </div>
-                    <aside class="bullets-panel" aria-label="Experience highlights">
-                        <button class="bullets-toggle" aria-expanded="true">Highlights</button>
-                        <ul>
-                            <li><strong>Property Manager</strong> - Independent (30 years)</li>
-                            <li>Daily maintenance and property operations</li>
-                            <li>Tenant relations and property inspections</li>
-                        </ul>
-                    </aside>
+                <div class="section">
+                    <h2>Experience</h2>
+                    <p>Professional experience managing properties and tenant relations.</p>
                 </div>
             </div>
             <div id="skills" class="tab-content panel">
-                <div class="section-grid">
-                    <div class="section">
-                        <h2>Skills & Interests</h2>
-                        <p>Hands-on skills and personal interests.</p>
-                    </div>
-                    <aside class="bullets-panel" aria-label="Skills and interests">
-                        <button class="bullets-toggle" aria-expanded="true">Highlights</button>
-                        <ul>
-                            <li>Working hands and learning building techniques</li>
-                        </ul>
-                    </aside>
+                <div class="section">
+                    <h2>Skills & Interests</h2>
+                    <p>Hands-on skills and personal interests.</p>
                 </div>
             </div>
             <div id="fun" class="tab-content panel">
-                <div class="section-grid">
-                    <div class="section">
-                        <h2>Fun Facts</h2>
-                        <p>Little-known facts and personal tidbits.</p>
-                    </div>
-                    <aside class="bullets-panel" aria-label="Fun facts">
-                        <button class="bullets-toggle" aria-expanded="true">Highlights</button>
-                        <ul>
-                            <li>I can speak more than one language.</li>
-                        </ul>
-                    </aside>
+                <div class="section">
+                    <h2>Fun Facts</h2>
+                    <p>Little-known facts and personal tidbits.</p>
+                </div>
+            </div>
+
+            <div id="projects" class="tab-content panel">
+                <div class="section">
+                    <h2>Projects</h2>
+                    <p>Selected projects and portfolio items.</p>
                 </div>
             </div>
         </main>
+
+        <aside class="bullet-column panel" aria-label="Section highlights">
+            <div id="bullet-about" class="bullet-card">
+                <h3>About</h3>
+                <ul>
+                    <li>Curious learner</li>
+                    <li>Enjoys exercise and reading</li>
+                </ul>
+            </div>
+            <div id="bullet-education" class="bullet-card">
+                <h3>Education</h3>
+                <ul>
+                    <li>Chem, BA and Psych, BS — UB at Amherst (2007)</li>
+                </ul>
+            </div>
+            <div id="bullet-experience" class="bullet-card">
+                <h3>Experience</h3>
+                <ul>
+                    <li>Property Manager — Independent (30 years)</li>
+                </ul>
+            </div>
+            <div id="bullet-skills" class="bullet-card">
+                <h3>Skills</h3>
+                <ul>
+                    <li>Hands-on building techniques</li>
+                </ul>
+            </div>
+            <div id="bullet-projects" class="bullet-card">
+                <h3>Projects</h3>
+                <ul>
+                    <li>Project placeholders — add real projects</li>
+                </ul>
+            </div>
+            <div id="bullet-fun" class="bullet-card">
+                <h3>Fun</h3>
+                <ul>
+                    <li>Speaks multiple languages</li>
+                </ul>
+            </div>
+        </aside>
 
         <div class="contact-info panel">
             <h2>Get In Touch</h2>
@@ -368,15 +353,33 @@
             entries.forEach(entry => {
                 const id = entry.target.id;
                 const btn = nav.querySelector('button[data-target="' + id + '"]');
+                const card = bulletMap.get(id);
                 if (!btn) return;
                 if (entry.isIntersecting && entry.intersectionRatio > 0.4) {
                     buttons.forEach(b => b.classList.remove('active'));
+                    buttons.forEach(b => b.removeAttribute('aria-current'));
                     btn.classList.add('active');
+                    btn.setAttribute('aria-current', 'true');
+                    // highlight corresponding bullet card
+                    if (card) {
+                        document.querySelectorAll('.bullet-card').forEach(c => c.classList.remove('active'));
+                        card.classList.add('active');
+                    }
                 }
             });
         }, { threshold: [0.05, 0.25, 0.4, 0.6] });
 
         sections.forEach(s => observer.observe(s));
+
+        // Also link sections to bullet cards for highlighting
+        const bulletMap = new Map();
+        sections.forEach(s => {
+            const card = document.getElementById('bullet-' + s.id);
+            if (card) bulletMap.set(s.id, card);
+        });
+
+        // Update observer to also toggle bullet-card active state
+        const originalCallback = observer.callback;
     })();
 
     // Contrast toggle: toggles .high-contrast on body and persists choice
