@@ -53,6 +53,10 @@
             box-shadow: 0 4px 14px rgba(0,0,0,0.2);
         }
 
+        /* Options button variant (left side) */
+        #optionsToggle { left: 16px; right: auto; }
+
+
         /* Subtle fullscreen overlay to improve contrast over the background image */
         body::before {
             content: '';
@@ -236,12 +240,38 @@
             /* On smaller screens revert bullet column to flow within content */
             .bullet-column { position: static; transform: none; left: auto; top: auto; width: auto; max-width: 720px; margin: 18px auto 0 auto; max-height: none; overflow: visible; z-index: 1; box-shadow: none; background: rgba(255,255,255,var(--panel-alpha)); }
         }
+
+        /* Scroll snap support when enabled via body.scroll-snap */
+        body.scroll-snap .page-container { scroll-behavior: smooth; scroll-snap-type: y mandatory; }
+        body.scroll-snap .tab-content { scroll-snap-align: center; }
+
+        /* Section animations when body has .animations */
+        .tab-content .section { opacity: 1; transform: none; transition: opacity 360ms ease, transform 360ms ease; }
+        body.animations .tab-content .section { opacity: 0; transform: translateY(10px); }
+        body.animations .tab-content.revealed .section { opacity: 1; transform: none; }
+
+        /* When pinning highlights, make the panel stick to the right side */
+        body.pin-highlights .bullet-column { position: fixed; right: 28px; left: auto; top: 50%; transform: translateY(-50%); width: min(360px, 26vw); }
         @media (max-width: 600px) {
             .profile-photo { width: 80px; height: 80px; }
         }
     </style>
 </head>
 <body>
+    <!-- Options floating control -->
+    <button id="optionsToggle" class="contrast-toggle" aria-pressed="false" style="left:16px; right:auto;">Options</button>
+    <div id="optionsPanel" class="panel" role="dialog" aria-modal="false" style="position:fixed;left:16px;bottom:72px;z-index:9999;display:none;min-width:220px;">
+        <h3 style="margin:0 0 8px 0;font-size:0.95rem;">Display options</h3>
+        <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <input type="checkbox" id="optScrollSnap"> Enable scroll snap
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <input type="checkbox" id="optAnimations"> Section animations
+        </label>
+        <label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+            <input type="checkbox" id="optPinHighlights"> Pin Highlights panel
+        </label>
+    </div>
     <a class="skip-link" href="#about">Skip to content</a>
     <button id="contrastToggle" class="contrast-toggle" aria-pressed="false">High contrast</button>
     <div class="page-container">
@@ -477,6 +507,63 @@
                 panel.classList.toggle('collapsed', expanded);
             });
         });
+    })();
+
+    // Options panel behavior: toggles for scroll-snap, animations, and pinning highlights
+    (function() {
+        const btn = document.getElementById('optionsToggle');
+        const panel = document.getElementById('optionsPanel');
+        const optSnap = document.getElementById('optScrollSnap');
+        const optAnim = document.getElementById('optAnimations');
+        const optPin = document.getElementById('optPinHighlights');
+
+        if (!btn || !panel) return;
+
+        const prefsKey = 'siteOptionsV1';
+        const applyPrefs = (prefs) => {
+            document.body.classList.toggle('scroll-snap', !!prefs.scrollSnap);
+            document.body.classList.toggle('animations', !!prefs.animations);
+            document.body.classList.toggle('pin-highlights', !!prefs.pinHighlights);
+            if (optSnap) optSnap.checked = !!prefs.scrollSnap;
+            if (optAnim) optAnim.checked = !!prefs.animations;
+            if (optPin) optPin.checked = !!prefs.pinHighlights;
+        };
+
+        // Load stored prefs
+        try {
+            const raw = localStorage.getItem(prefsKey);
+            const parsed = raw ? JSON.parse(raw) : {};
+            applyPrefs(parsed);
+        } catch (e) { /* ignore */ }
+
+        // Toggle panel visibility
+        btn.addEventListener('click', () => {
+            const showing = panel.style.display === 'block';
+            panel.style.display = showing ? 'none' : 'block';
+            btn.setAttribute('aria-pressed', String(!showing));
+        });
+
+        const saveAndApply = () => {
+            const prefs = { scrollSnap: !!optSnap.checked, animations: !!optAnim.checked, pinHighlights: !!optPin.checked };
+            try { localStorage.setItem(prefsKey, JSON.stringify(prefs)); } catch (e) {}
+            applyPrefs(prefs);
+        };
+
+        [optSnap, optAnim, optPin].forEach(el => { if (!el) return; el.addEventListener('change', saveAndApply); });
+
+        // If animations are enabled, reveal each tab-content when it becomes intersecting
+        const animObserver = new IntersectionObserver((entries) => {
+            entries.forEach(en => {
+                const tc = en.target;
+                if (en.isIntersecting && document.body.classList.contains('animations')) {
+                    tc.classList.add('revealed');
+                } else {
+                    tc.classList.remove('revealed');
+                }
+            });
+        }, { threshold: 0.45 });
+
+        document.querySelectorAll('.tab-content').forEach(tc => animObserver.observe(tc));
     })();
     </script>
 </body>
