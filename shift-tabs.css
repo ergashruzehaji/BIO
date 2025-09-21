@@ -1,0 +1,38 @@
+:root {
+  /* no change to variables here - just an override file */
+}
+
+/* Bring the tab content and main content higher on the page */
+.page-container {
+  align-items: start; /* ensure top alignment */
+}
+
+/* Move the content inner block up */
+.content-inner {
+  margin: 0 auto 0 auto;  /* remove top margin */
+  padding-top: 0;         /* remove extra top padding */
+  min-height: calc(100vh - 160px); /* reduce the reserved vertical space so content sits higher */
+}
+
+/* Reduce vertical padding in each tab so the visible info is higher */
+.tab-content {
+  padding: 8px 12px; /* smaller top/bottom padding */
+}
+
+/* Slightly tighten the header so the content under it is closer */
+.header {
+  padding-bottom: 6px;
+}
+
+/* Reduce extra margins for embedded panels that might push content down */
+.highlights,
+.contact-info,
+.tab-content > .section {
+  margin-top: 8px;
+}
+
+/* Keep mobile behavior consistent */
+@media (max-width: 900px) {
+  .content-inner { min-height: auto; margin-top: 0; padding-top: 0; }
+  .tab-content { padding: 6px 12px; }
+}
