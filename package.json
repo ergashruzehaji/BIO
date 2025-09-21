@@ -4,7 +4,8 @@
   "description": "Accessibility audit helper for the BIO site",
   "private": true,
   "scripts": {
-    "a11y": "node tools/audit-a11y.js"
+    "a11y": "node tools/audit-a11y.js",
+    "check-about": "node tools/check-about.js"
   },
   "dependencies": {
     "axe-core": "^4.8.3",
