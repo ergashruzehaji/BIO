@@ -22,6 +22,11 @@ jobs:
     - name: Install dependencies
       run: npm install --no-audit --no-fund
 
+    - name: Run 'check-about' validation
+      run: |
+        set -eo pipefail
+        npm run check-about
+
     - name: Run accessibility audit
       id: run-a11y
       run: |
