@@ -71,15 +71,15 @@
         .page-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 28px 18px;
+            padding: 18px;
             box-sizing: border-box;
             min-height: 100vh;
-            display: grid; /* two-column layout: nav + content */
+            display: grid;
             grid-template-columns: 220px 1fr;
-            gap: 18px;
+            grid-template-rows: auto 1fr auto; /* header, main content, footer/contact */
+            gap: 12px;
             position: relative;
             z-index: 1; /* ensure content sits above the body overlay */
-            align-items: start;
         }
 
         /* Reusable translucent panel to place on top of the background image */
@@ -95,7 +95,9 @@
             display: flex;
             align-items: center;
             gap: 16px;
-            padding-bottom: 10px; /* tighten spacing under the name */
+            padding: 12px 16px;
+            grid-column: 1 / -1;
+            grid-row: 1;
         }
 
         .profile-photo {
@@ -112,8 +114,8 @@
         /* Left vertical nav column on desktop */
         .left-nav {
             position: sticky;
-            top: 28px;
-            height: calc(100vh - 56px);
+            top: 24px;
+            height: calc(100vh - 48px);
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -122,6 +124,8 @@
             overflow-y: auto;
             align-items: stretch;
             background: rgba(255,255,255,calc(var(--panel-alpha) - 0.02));
+            grid-row: 2; /* nav sits in the middle row */
+            grid-column: 1;
         }
         .left-nav button {
             text-align: left;
@@ -168,30 +172,38 @@
         .top-tabs button.active { background: #3498db; color: #fff; }
 
         /* Content column uses panels per section and is scrollable with visible sections */
-    .content-area { display: block; }
+    .content-area { display: block; grid-column: 2; grid-row: 2; }
         /* Center the main content between left nav and right bullets */
         .content-inner {
             max-width: 720px;
-            margin: 8px auto 0 auto; /* move the content up toward the header */
-            position: static;
-            min-height: calc(100vh - 220px); /* slightly smaller to keep things higher */
-            padding-top: 6px;
+            margin: 0 auto;
+            position: relative;
+            min-height: calc(100vh - 220px);
+            display: flex;
+            align-items: center; /* vertical center within area */
+            justify-content: center; /* horizontal center */
+            padding: 6px 12px;
         }
     /* Make each tab content flow in document order inside the right column.
        Only the active tab is visible; others are hidden via display. */
     .tab-content {
         position: relative;
         display: none;
-        padding: 14px 12px; /* reduce vertical padding so content sits higher */
+        padding: 10px 12px;
         box-sizing: border-box;
         opacity: 0;
-        transform: translateY(8px);
+        transform: translateY(4px);
         visibility: hidden;
         pointer-events: none;
-        transition: opacity 320ms ease, transform 320ms ease, visibility 0s linear 320ms;
+        transition: opacity 240ms ease, transform 240ms ease, visibility 0s linear 240ms;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        min-height: 240px; /* ensure some vertical space to center in */
     }
     .tab-content.active {
-        display: block;
+        display: flex;
         opacity: 1;
         transform: none;
         visibility: visible;
@@ -393,7 +405,7 @@
             <!-- move bullet column here so it centers under main content -->
             <!-- Highlights removed (right-side content removed per user's request) -->
 
-            <div class="contact-info panel">
+            <div class="contact-info panel" style="grid-column:2;grid-row:3;">
             <h2>Get In Touch</h2>
             <p>
                 <a href="mailto:ergash.ruzehaji@pursuit.com">Email</a> |
