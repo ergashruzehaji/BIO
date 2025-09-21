@@ -1,0 +1,13 @@
+{
+  "name": "bio-a11y-audit",
+  "version": "1.0.0",
+  "description": "Accessibility audit helper for the BIO site",
+  "private": true,
+  "scripts": {
+    "a11y": "node tools/audit-a11y.js"
+  },
+  "dependencies": {
+    "axe-core": "^4.8.3",
+    "jsdom": "^22.1.0"
+  }
+}

@@ -94,7 +94,8 @@
         .header {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 16px;
+            padding-bottom: 10px; /* tighten spacing under the name */
         }
 
         .profile-photo {
@@ -171,16 +172,17 @@
         /* Center the main content between left nav and right bullets */
         .content-inner {
             max-width: 720px;
-            margin: 0 auto;
+            margin: 8px auto 0 auto; /* move the content up toward the header */
             position: static;
-            min-height: calc(100vh - 160px);
+            min-height: calc(100vh - 220px); /* slightly smaller to keep things higher */
+            padding-top: 6px;
         }
     /* Make each tab content flow in document order inside the right column.
        Only the active tab is visible; others are hidden via display. */
     .tab-content {
         position: relative;
         display: none;
-        padding: 28px 12px;
+        padding: 14px 12px; /* reduce vertical padding so content sits higher */
         box-sizing: border-box;
         opacity: 0;
         transform: translateY(8px);
