@@ -178,11 +178,11 @@
             max-width: 720px;
             margin: 0 auto;
             position: relative;
-            min-height: calc(100vh - 220px);
+            min-height: calc(100vh - 200px);
             display: flex;
-            align-items: center; /* vertical center within area */
+            align-items: flex-start; /* place content near the top */
             justify-content: center; /* horizontal center */
-            padding: 6px 12px;
+            padding: 12px 12px 24px 12px;
         }
     /* Make each tab content flow in document order inside the right column.
        Only the active tab is visible; others are hidden via display. */
@@ -200,7 +200,7 @@
         align-items: center;
         justify-content: center;
         text-align: center;
-        min-height: 240px; /* ensure some vertical space to center in */
+        min-height: 160px; /* less vertical space so content sits higher */
     }
     .tab-content.active {
         display: flex;
@@ -210,7 +210,8 @@
         pointer-events: auto;
         transition-delay: 0s;
     }
-    .tab-content > .section { width: 100%; max-width: 720px; }
+    .tab-content > .section { width: 100%; max-width: 640px; margin: 0 auto; }
+    .section-body { margin: 0; padding-top: 8px; }
 
     /* Ensure main page areas sit in the right-hand grid column */
     .header, .content-area, .contact-info { grid-column: 2; }
