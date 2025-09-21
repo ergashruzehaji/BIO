@@ -71,15 +71,15 @@
         .page-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 18px;
+            padding: 28px 18px;
             box-sizing: border-box;
             min-height: 100vh;
-            display: grid;
+            display: grid; /* two-column layout: nav + content */
             grid-template-columns: 220px 1fr;
-            grid-template-rows: auto 1fr auto; /* header, main content, footer/contact */
-            gap: 12px;
+            gap: 18px;
             position: relative;
             z-index: 1; /* ensure content sits above the body overlay */
+            align-items: start;
         }
 
         /* Reusable translucent panel to place on top of the background image */
@@ -95,9 +95,7 @@
             display: flex;
             align-items: center;
             gap: 16px;
-            padding: 12px 16px;
-            grid-column: 1 / -1;
-            grid-row: 1;
+            padding-bottom: 10px; /* tighten spacing under the name */
         }
 
         .profile-photo {
@@ -114,8 +112,8 @@
         /* Left vertical nav column on desktop */
         .left-nav {
             position: sticky;
-            top: 24px;
-            height: calc(100vh - 48px);
+            top: 28px;
+            height: calc(100vh - 56px);
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -124,8 +122,6 @@
             overflow-y: auto;
             align-items: stretch;
             background: rgba(255,255,255,calc(var(--panel-alpha) - 0.02));
-            grid-row: 2; /* nav sits in the middle row */
-            grid-column: 1;
         }
         .left-nav button {
             text-align: left;
@@ -172,46 +168,37 @@
         .top-tabs button.active { background: #3498db; color: #fff; }
 
         /* Content column uses panels per section and is scrollable with visible sections */
-    .content-area { display: block; grid-column: 2; grid-row: 2; }
+    .content-area { display: block; }
         /* Center the main content between left nav and right bullets */
         .content-inner {
             max-width: 720px;
-            margin: 0 auto;
-            position: relative;
-            min-height: calc(100vh - 200px);
-            display: flex;
-            align-items: flex-start; /* place content near the top */
-            justify-content: center; /* horizontal center */
-            padding: 12px 12px 24px 12px;
+            margin: 8px auto 0 auto; /* move the content up toward the header */
+            position: static;
+            min-height: calc(100vh - 220px); /* slightly smaller to keep things higher */
+            padding-top: 6px;
         }
     /* Make each tab content flow in document order inside the right column.
        Only the active tab is visible; others are hidden via display. */
     .tab-content {
         position: relative;
         display: none;
-        padding: 10px 12px;
+        padding: 14px 12px; /* reduce vertical padding so content sits higher */
         box-sizing: border-box;
         opacity: 0;
-        transform: translateY(4px);
+        transform: translateY(8px);
         visibility: hidden;
         pointer-events: none;
-        transition: opacity 240ms ease, transform 240ms ease, visibility 0s linear 240ms;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        min-height: 160px; /* less vertical space so content sits higher */
+        transition: opacity 320ms ease, transform 320ms ease, visibility 0s linear 320ms;
     }
     .tab-content.active {
-        display: flex;
+        display: block;
         opacity: 1;
         transform: none;
         visibility: visible;
         pointer-events: auto;
         transition-delay: 0s;
     }
-    .tab-content > .section { width: 100%; max-width: 640px; margin: 0 auto; }
-    .section-body { margin: 0; padding-top: 8px; }
+    .tab-content > .section { width: 100%; max-width: 720px; }
 
     /* Ensure main page areas sit in the right-hand grid column */
     .header, .content-area, .contact-info { grid-column: 2; }
@@ -247,7 +234,7 @@
 
         /* Skip link visibility and focus styles */
         .skip-link { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
-        .skip-link:focus, .skip-link:active { position: static; left: auto; width: auto; height: auto; padding: 8px 12px; background: #fff; color: #111; z-index: 10000; border-radius: 6px; text-decoration: none; }
+        .skip-link:focus, .skip-link:active { position: static; left: auto; width: auto; height: auto; padding: 8px 12px; background: #fff; color: #111; z-index: 10000; border-radius: 6px; text-d[...] 
 
         /* Focus-visible outlines for keyboard users */
         :focus { outline: none; }
@@ -297,6 +284,7 @@
             .profile-photo { width: 80px; height: 80px; }
         }
     </style>
+<link rel="stylesheet" href="shift-tabs.css">
 </head>
 <body class="high-contrast">
     <!-- Options floating control -->
@@ -316,8 +304,7 @@
     <div class="page-container">
         <!-- top-tabs removed per user request -->
     <nav class="left-nav panel" role="tablist" aria-label="Main sections">
-        <!-- Label must match exactly: "About Me" -->
-        <button type="button" role="tab" data-target="about" class="active" aria-current="true" aria-selected="true" aria-controls="about">About Me</button>
+            <button type="button" role="tab" data-target="about" class="active" aria-current="true" aria-selected="true" aria-controls="about">About Me</button>
             <button type="button" role="tab" data-target="education" aria-selected="false" aria-controls="education">Education</button>
             <button type="button" role="tab" data-target="experience" aria-selected="false" aria-controls="experience">Experience</button>
             <button type="button" role="tab" data-target="skills" aria-selected="false" aria-controls="skills">Skills & Interests</button>
@@ -337,12 +324,11 @@
             <div id="about" class="tab-content panel" role="tabpanel" aria-hidden="false">
                 <div class="section" id="section-about">
                     <div class="section-head">
-                        <!-- Heading must match exactly: "About Me" -->
                         <h2>About Me</h2>
                         <button type="button" class="section-toggle" aria-expanded="true" aria-controls="section-about-content">Hide</button>
                     </div>
                     <div id="section-about-content" class="section-body">
-                    <p>I am an Asian American who tries to learn something new everyday, regardless of use. I try my best to be as independent as possible but then realize that I am only human. I do ask for assistance when I have reached my limit(s).</p>
+                    <p>I am an Asian American who tries to learn something new everyday, regardless of use. I try my best to be as independent as possible but then realize that I am only human. I[...]
                     <p>I am into exercising, reading, and exploring anything on land, air or sea.</p>
                     </div>
                 </div>
@@ -408,7 +394,7 @@
             <!-- move bullet column here so it centers under main content -->
             <!-- Highlights removed (right-side content removed per user's request) -->
 
-            <div class="contact-info panel" style="grid-column:2;grid-row:3;">
+            <div class="contact-info panel">
             <h2>Get In Touch</h2>
             <p>
                 <a href="mailto:ergash.ruzehaji@pursuit.com">Email</a> |
@@ -503,7 +489,7 @@
                 const ev = new CustomEvent('section-activated', { detail: { id } });
                 document.dispatchEvent(ev);
             } catch (e) { /* ignore */ }
-        };
+            };
 
         // Wire left-nav buttons (ARIA tab behavior)
         buttons.forEach((btn, idx) => {
