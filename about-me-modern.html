@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ergash Ruzehaji - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:700,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1976d2;
+            --accent: #00c6fb;
+            --bg-gradient: linear-gradient(135deg, #00c6fb 0%, #005bea 100%);
+            --card-bg: rgba(255,255,255,0.96);
+        }
+        body {
+            margin: 0;
+            font-family: 'Montserrat', Arial, sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            color: #222;
+            overflow-x: hidden;
+        }
+        .backdrop {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .backdrop svg {
+            width: 100vw;
+            height: 100vh;
+            display: block;
+        }
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 48px auto;
+            padding: 40px 32px;
+            background: var(--card-bg);
+            border-radius: 32px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        }
+        h1 {
+            font-size: 2.5rem;
+            margin-top: 0;
+            color: var(--primary);
+            font-weight: 700;
+            letter-spacing: .03em;
+        }
+        h2 {
+            font-size: 1.3rem;
+            color: var(--accent);
+            margin-bottom: .25em;
+            margin-top: 2em;
+        }
+        .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+            float: right;
+            margin-left: 24px;
+            margin-bottom: 18px;
+        }
+        ul, .project-list {
+            padding-left: 20px;
+        }
+        .project-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        .project-list li {
+            margin-bottom: 16px;
+            background: #f4f8fC;
+            padding: 10px 18px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        a:hover {
+            text-decoration: underline;
+            color: var(--accent);
+        }
+        .contact {
+            background: #e3f2fd;
+            padding: 18px;
+            border-radius: 12px;
+            margin-top: 2em;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.08);
+        }
+        @media (max-width: 600px) {
+            .container {
+                padding: 18px 6px;
+                border-radius: 14px;
+            }
+            .profile-pic {
+                float: none;
+                margin: 0 auto 18px auto;
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="backdrop">
+        <!-- Modern, eye-catching SVG backdrop -->
+        <svg viewBox="0 0 1440 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <radialGradient id="bg1" cx="50%" cy="30%" r="70%" fx="50%" fy="30%" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#00C6FB" stop-opacity="0.7"/>
+                    <stop offset="1" stop-color="#005BEA" stop-opacity="0.2"/>
+                </radialGradient>
+                <linearGradient id="bg2" x1="0" y1="0" x2="1440" y2="800" gradientUnits="userSpaceOnUse">
+                    <stop stop-color="#fff" stop-opacity="0.08"/>
+                    <stop offset="1" stop-color="#005bea" stop-opacity="0.10"/>
+                </linearGradient>
+            </defs>
+            <ellipse cx="720" cy="340" rx="700" ry="330" fill="url(#bg1)" />
+            <ellipse cx="1100" cy="640" rx="420" ry="140" fill="url(#bg2)" />
+            <ellipse cx="360" cy="680" rx="280" ry="80" fill="url(#bg2)" />
+            <ellipse cx="120" cy="200" rx="180" ry="80" fill="url(#bg2)" />
+        </svg>
+    </div>
+    <div class="container">
+        <img src="https://avatars.githubusercontent.com/u/ergashruzehaji?v=4" alt="Ergash Ruzehaji" class="profile-pic" />
+        <h1>Ergash Ruzehaji</h1>
+        <p>
+            Hi! I'm Ergash Ruzehaji, a passionate developer specializing in modern web technologies, automation, and creative problem-solving. I enjoy building impactful projects and collaborating with the global tech community.
+        </p>
+        <h2>Skills</h2>
+        <ul>
+            <li>Modern Web Development (HTML, CSS, JavaScript, React)</li>
+            <li>Backend Engineering (Python, Node.js)</li>
+            <li>Database Management (SQL, MongoDB)</li>
+            <li>Automation & Scripting</li>
+            <li>UI/UX Design Principles</li>
+            <li>Version Control (Git & GitHub)</li>
+        </ul>
+        <h2>Languages</h2>
+        <ul>
+            <li>English (Professional)</li>
+            <li>Uzbek (Native)</li>
+            <li>Russian (Intermediate)</li>
+            <li>Python, JavaScript, HTML/CSS</li>
+        </ul>
+        <h2>Work Experience</h2>
+        <ul>
+            <li>
+                <strong>Freelance Developer</strong> (2023 - Present)<br>
+                Building custom web applications & automation scripts for clients.
+            </li>
+            <li>
+                <strong>Open Source Contributor</strong> (2022 - Present)<br>
+                Enhancing open-source projects on GitHub through feature contributions and bug fixes.
+            </li>
+        </ul>
+        <h2>Projects</h2>
+        <ul class="project-list">
+            <li>
+                <strong><a href="https://github.com/ergashruzehaji/Task-Tracker" target="_blank">Task-Tracker</a></strong>: Productivity app for managing tasks and deadlines.
+            </li>
+            <li>
+                <strong><a href="https://github.com/ergashruzehaji/BIO" target="_blank">BIO</a></strong>: Personal biography website template.
+            </li>
+            <li>
+                <strong><a href="https://github.com/ergashruzehaji/SOLAR" target="_blank">SOLAR</a></strong>: Solar energy simulation tools.
+            </li>
+            <li>
+                <strong><a href="https://github.com/ergashruzehaji/Writing-n-growing" target="_blank">Writing-n-growing</a></strong>: Platform for sharing articles and growth stories.
+            </li>
+        </ul>
+        <div class="contact">
+            <h2>Contact Information</h2>
+            <ul>
+                <li>Email: <a href="mailto:ergash.ruzehaji@gmail.com">ergash.ruzehaji@gmail.com</a></li>
+                <li>GitHub: <a href="https://github.com/ergashruzehaji" target="_blank">ergashruzehaji</a></li>
+                <li>LinkedIn: <a href="https://linkedin.com/in/ergashruzehaji" target="_blank">linkedin.com/in/ergashruzehaji</a></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
